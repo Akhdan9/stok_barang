@@ -126,7 +126,7 @@ class Laporan extends CI_Controller
         $getData = $this->m_laporan->getDataStokBulanan($this->convert_bulan($bulan), $tahun);
 
         $data = [
-            'title' => 'Laporan Bulanan Stok Barang',
+            'title' => 'Laporan Bulanan Stok ',
             'bulan' => $bulan,
             'tahun' => $tahun,
             'data' => $getData

@@ -96,6 +96,12 @@ $route['update_cart'] = 'pembelian/update_cart';
 $route['remove_item'] = 'pembelian/remove_item';
 $route['ajax_pembelian'] = 'pembelian/ajax_pembelian';
 
+//route data cabang
+$route['cabang'] = 'data_cabang/index';
+$route['ajax_cabang'] = 'data_cabang/ajax_cabang';
+
+
+
 //route data penjualan barang
 $route['data_penjualan'] = 'penjualan/index';
 $route['data_penjualan/(:any)'] = 'penjualan/detail_penjualan/$1';

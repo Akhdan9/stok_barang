@@ -157,7 +157,7 @@
     <script src="<?= base_url('assets/js/js-cookie.js'); ?>"></script>
     <!-- Custom Javascript -->
     <?php
-    $arr_uri = array('stok_barang', 'barang', 'pegawai', 'supplier', 'data_pembelian', 'data_penjualan');
+    $arr_uri = array('stok_barang', 'barang','pegawai', 'supplier', 'data_pembelian', 'data_penjualan','cabang');
 
     if (in_array(strtolower($this->uri->segment(1)), $arr_uri) && !$this->uri->segment(2)) :
         switch ($this->uri->segment(1)) {
@@ -179,6 +179,10 @@
             case 'data_penjualan':
                 $file = 'ajax_penjualan';
                 break;
+            case 'cabang':
+                $file = 'ajax_cabang';
+                break;
+
         }
     ?>
         <script>
