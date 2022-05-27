@@ -47,6 +47,7 @@ class Data_cabang extends CI_Controller
                 $row = array();
                 $row[] = $no;
                 $row[] = $i->nama_cabang;
+                $row[] = $i->stok;
 
                 $data[] = $row;
             }

@@ -27,6 +27,7 @@ if ($this->session->flashdata('error')) {
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nama Cabang</th>
+                <th scope="col">Stok</th>
             </tr>
         </thead>
         <tbody>
