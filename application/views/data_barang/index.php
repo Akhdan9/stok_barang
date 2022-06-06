@@ -29,7 +29,6 @@ if ($this->session->flashdata('error')) {
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Kode Barang</th>
                 <th scope="col">Nama Barang</th>
                 <th scope="col">Brand</th>
                 <th scope="col">Aksi</th>

@@ -10,17 +10,6 @@
 <div class="col-md-8">
 
     <div class="form-group row">
-        <label for="KodeBarang" class="col-sm-3 col-form-label">Kode Barang</label>
-        <div class="col-sm-9 col-md-6">
-            <input type="text" class="form-control form-control-sm <?= (form_error('kode')) ? 'is-invalid' : ''; ?>" id="KodeBarang" required name="kode" placeholder="Kode Barang" value="<?= $barang->kode_barang; ?>" readonly>
-            <input type="hidden" name="ID" value="<?= $barang->kode_barang; ?>" />
-            <div class="invalid-feedback">
-                <?= form_error('kode', '<p class="error-message">', '</p>'); ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group row">
         <label for="nama_barang" class="col-sm-3 col-form-label">Nama Barang</label>
         <div class="col-sm-9">
             <input type="text" class="form-control form-control-sm <?= (form_error('nama_barang')) ? 'is-invalid' : ''; ?>" id="nama_barang" name="nama_barang" placeholder="Nama Barang" value="<?= (set_value('nama_barang')) ? set_value('nama_barang') : $barang->nama_barang; ?>">

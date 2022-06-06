@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li <?= (in_array(strtolower($this->uri->segment(1)), ['cabang'])) ? 'class="active"' : ''; ?>>
-                    <a href="<?= site_url('cabang'); ?>"><i class="fa fa-users"></i> Data Cabang</a>
+                    <a href="<?= site_url('cabang'); ?>"><i class="fa fa-users"></i> Data Lokasi</a>
                 </li>
             <?php
             endif;

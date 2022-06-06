@@ -38,17 +38,7 @@ class Data_barang extends CI_Controller
 
         if ($this->input->post('submit', TRUE) == 'submit') {
             //set rules form validasi
-            $this->form_validation->set_rules(
-                'kode',
-                'Kode Barang',
-                'required|min_length[3]|max_length[20]|is_unique[tbl_barang.kode_barang]',
-                array(
-                    'required' => '{field} wajib diisi',
-                    'min_length' => '{field} minimal 3 karakter',
-                    'max_length' => '{field} maksimal 20 karakter',
-                    'is_unique' => 'Kode sudah terdaftar'
-                )
-            );
+            
 
             $this->form_validation->set_rules(
                 'nama_barang',
@@ -71,24 +61,14 @@ class Data_barang extends CI_Controller
                 )
             );
 
-            $this->form_validation->set_rules(
-                'harga',
-                'Harga Jual',
-                "required|regex_match[/^[0-9.]+$/]",
-                array(
-                    'required' => '{field} wajib diisi',
-                    'regex_match' => '{field} hanya boleh angka'
-                )
-            );
+            
 
             //jika data sudah valid maka lakukan proses penyimpanan
             if ($this->form_validation->run() == TRUE) {
                 //masukkan data ke variable array
                 $simpan = array(
-                    'kode_barang' => $this->security->xss_clean($this->input->post('kode', TRUE)),
                     'nama_barang' => $this->security->xss_clean($this->input->post('nama_barang', TRUE)),
-                    'brand' => $this->security->xss_clean($this->input->post('brand', TRUE)),
-                    'harga' => str_replace('.', '', $this->security->xss_clean($this->input->post('harga', TRUE)))
+                    'brand' => $this->security->xss_clean($this->input->post('brand', TRUE))
                 );
 
                 //simpan ke database
@@ -176,15 +156,7 @@ class Data_barang extends CI_Controller
                 )
             );
 
-            $this->form_validation->set_rules(
-                'harga',
-                'Harga Jual',
-                "required|regex_match[/^[0-9.]+$/]",
-                array(
-                    'required' => '{field} wajib diisi',
-                    'regex_match' => '{field} hanya boleh angka'
-                )
-            );
+            
 
             $this->form_validation->set_rules(
                 'status',
@@ -204,8 +176,7 @@ class Data_barang extends CI_Controller
                 $update = array(
                     'nama_barang' => $this->security->xss_clean($this->input->post('nama_barang', TRUE)),
                     'brand' => $this->security->xss_clean($this->input->post('brand', TRUE)),
-                    'harga' => str_replace('.', '', $this->security->xss_clean($this->input->post('harga', TRUE))),
-                    'active' => $this->security->xss_clean($this->input->post('status', TRUE))
+                    
                 );
 
                 //simpan ke database
@@ -294,7 +265,6 @@ class Data_barang extends CI_Controller
                 $no++;
                 $row = array();
                 $row[] = $no;
-                $row[] = $i->kode_barang;
                 $row[] = $i->nama_barang;
                 $row[] = $i->brand;
                 $row[] = '<a href="' . site_url('edit_barang/' . $i->kode_barang) . '" class="btn btn-warning btn-sm text-white">Edit</a>';

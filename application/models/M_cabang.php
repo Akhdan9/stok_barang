@@ -3,10 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_cabang extends CI_Model
 {
-    var $select          = array('p.id_cabang AS id_cabang','count(id_barang) AS jumlah', 'p.id_user AS id_user');
-    var $table           = 'tbl_cabang p
-                            JOIN tbl_barang dp ON(p.kode_barang = dp.kode_barang)';
-    var $column_order    =  array(null, 'nama_cabang', 'stok'); //set column field database untuk datatable order
+    var $table           = 'tbl_lokasi';
+    var $column_order    =  array(null, 'nama_cabang'); //set column field database untuk datatable order
     var $column_search   =  array('nama_cabang'); //set column field database untuk datatable search
     var $order = array('id_cabang' => 'asc'); // default order
 
