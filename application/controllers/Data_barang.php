@@ -297,9 +297,6 @@ class Data_barang extends CI_Controller
                 $row[] = $i->kode_barang;
                 $row[] = $i->nama_barang;
                 $row[] = $i->brand;
-                $row[] = $i->stok;
-                $row[] = '<span class="float-left">Rp.</span><span class="float-right">' . number_format($i->harga, 0, ',', '.') . ',-</span>';
-                $row[] = ($i->active == 'Y') ? 'Aktif' : 'Tidak Aktif';
                 $row[] = '<a href="' . site_url('edit_barang/' . $i->kode_barang) . '" class="btn btn-warning btn-sm text-white">Edit</a>';
 
                 $data[] = $row;
