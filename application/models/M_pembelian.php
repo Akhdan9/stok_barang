@@ -35,7 +35,7 @@ class M_pembelian extends CI_Model
 
     function getDataPembelian($id)
     {
-        $select = 'p.id_pembelian AS id_pembelian, tgl_pembelian, qty, dp.harga AS harga, kode_barang, nama_barang, brand, fullname, u.id_user AS id_user, nama_supplier, p.id_supplier AS id_supplier';
+        $select = 'p.id_pembelian AS id_pembelian, tgl_pembelian, qty, dp.harga AS harga, kode_barang, nama_barang, fullname, u.id_user AS id_user, nama_supplier, p.id_supplier AS id_supplier';
 
         $table = 'tbl_pembelian p
                     LEFT JOIN tbl_detail_pembelian dp ON(p.id_pembelian = dp.id_pembelian)
