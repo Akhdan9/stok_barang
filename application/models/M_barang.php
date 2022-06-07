@@ -5,8 +5,8 @@ class M_barang extends CI_Model
 {
 
     var $table           = 'tbl_barang';
-    var $column_order    =  array(null, 'kode_barang', 'nama_barang', 'brand', 'stok', 'hargal', 'active', null); //set column field database untuk datatable order
-    var $column_search   =  array('kode_barang', 'nama_barang', 'brand', 'stok', 'harga', 'active'); //set column field database untuk datatable search
+    var $column_order    =  array(null, 'kode_barang', 'nama_barang', 'brand', 'item_no', 'size', null); //set column field database untuk datatable order
+    var $column_search   =  array('kode_barang', 'nama_barang', 'brand', 'item_no', 'size'); //set column field database untuk datatable search
     var $order = array('kode_barang' => 'asc'); // default order
 
     function __construct()

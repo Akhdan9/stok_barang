@@ -8,6 +8,17 @@
 <hr class="mt-0" />
 <?= form_open(); ?>
 <div class="col-md-8">
+    
+<div class="form-group row">
+        <label for="KodeBarang" class="col-sm-3 col-form-label">Kode Barang</label>
+        <div class="col-sm-9 col-md-6">
+            <input type="text" class="form-control form-control-sm <?= (form_error('kode')) ? 'is-invalid' : ''; ?>" id="KodeBarang" required name="kode" placeholder="Kode Barang" value="<?= $barang->kode_barang; ?>" readonly>
+            <input type="hidden" name="ID" value="<?= $barang->kode_barang; ?>" />
+            <div class="invalid-feedback">
+                <?= form_error('kode', '<p class="error-message">', '</p>'); ?>
+            </div>
+        </div>
+    </div>
 
     <div class="form-group row">
         <label for="nama_barang" class="col-sm-3 col-form-label">Nama Barang</label>
@@ -30,31 +41,21 @@
     </div>
 
     <div class="form-group row">
-        <label for="harga" class="col-sm-3 col-form-label">Harga Jual</label>
+        <label for="item_no" class="col-sm-3 col-form-label">Item No</label>
         <div class="col-sm-6">
-            <input type="text" class="form-control form-control-sm uang <?= (form_error('harga')) ? 'is-invalid' : ''; ?>" id="harga" name="harga" placeholder="Harga Jual" value="<?= (set_value('harga')) ? set_value('harga') : number_format($barang->harga, 0, ',', '.'); ?>">
+            <input type="text" class="form-control form-control-sm <?= (form_error('item_no')) ? 'is-invalid' : ''; ?>" id="item_no" name="item_no" placeholder="Item No" value="<?= (set_value('item_no')) ? set_value('item_no') : $barang->item_no; ?>">
             <div class="invalid-feedback">
-                <?= form_error('harga', '<p class="error-message">', '</p>'); ?>
+                <?= form_error('item_no', '<p class="error-message">', '</p>'); ?>
             </div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="status" class="col-sm-3 col-form-label">Status</label>
-        <?php
-        $status = (set_value('status')) ? set_value('status') : $barang->active;
-        ?>
+        <label for="size" class="col-sm-3 col-form-label">Size</label>
         <div class="col-sm-6">
-            <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input <?= (form_error('status')) ? 'is-invalid' : ''; ?>" id="Aktif" name="status" value="Y" <?= (ucwords($status) == 'Y') ? 'checked' : ''; ?>>
-                <label class="custom-control-label" for="Aktif">Aktif</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" class="custom-control-input <?= (form_error('status')) ? 'is-invalid' : ''; ?>" id="Tidak" name="status" value="N" <?= (ucwords($status) == 'N') ? 'checked' : ''; ?>>
-                <label class="custom-control-label" for="Tidak">Tidak Aktif</label>
-                <div class="invalid-feedback">
-                    <?= form_error('status', '<p class="error-message">', '</p>'); ?>
-                </div>
+            <input type="text" class="form-control form-control-sm <?= (form_error('size')) ? 'is-invalid' : ''; ?>" id="size" name="size" placeholder="Size" value="<?= (set_value('size')) ? set_value('size') : $barang->size; ?>">
+            <div class="invalid-feedback">
+                <?= form_error('size', '<p class="error-message">', '</p>'); ?>
             </div>
         </div>
     </div>

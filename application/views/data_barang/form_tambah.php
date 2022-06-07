@@ -31,6 +31,27 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label for="brand" class="col-sm-3 col-form-label">Item No</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control form-control-sm <?= (form_error('item_no')) ? 'is-invalid' : ''; ?>" id="item_no" name="item_no" placeholder="Item No" value="<?= set_value('item_no'); ?>">
+            <div class="invalid-feedback">
+                <?= form_error('item_no', '<p class="error-message">', '</p>'); ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="brand" class="col-sm-3 col-form-label">Size</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control form-control-sm <?= (form_error('size')) ? 'is-invalid' : ''; ?>" id="size" name="size" placeholder="Size" value="<?= set_value('size'); ?>">
+            <div class="invalid-feedback">
+                <?= form_error('size', '<p class="error-message">', '</p>'); ?>
+            </div>
+        </div>
+    </div>
+
+
     
 
     <div class="form-group row">
