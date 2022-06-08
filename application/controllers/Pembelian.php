@@ -96,20 +96,25 @@ class Pembelian extends CI_Controller
 
                 if ($simpan) {
                     //simpan data detail pembelian
-                    $this->m_pembelian->multiSave('tbl_detail_pembelian', $cart);
+                    $simpanPembelian = $this->m_pembelian->multiSave('tbl_detail_pembelian', $cart);
+                    if ($simpanPembelian){
                     //kosongkan cart
                     $this->cart->destroy();
                     //buat notifikasi penyimpanan berhasil
                     $this->session->set_flashdata('success', 'Data pembelian berhasil ditambahkan...');
 
+                    
+                    } 
                     redirect('data_pembelian');
-                }
+                } 
+
+                
             }
         }
 
         $data = [
             'title' => 'Tambah Data Pembelian',
-            'data' => $this->m_pembelian->getData('tbl_barang', ['active' => 'Y']),
+            'data' => $this->m_pembelian->getAllData('tbl_barang'),
             'supplier' => $this->m_pembelian->getAllData('tbl_supplier'),
             'table' => $this->read_cart()
         ];
@@ -295,7 +300,7 @@ class Pembelian extends CI_Controller
         $data = [
             'title' => 'Edit Data Pembelian',
             'fdata' => $fData,
-            'data' => $this->m_pembelian->getData('tbl_barang', ['active' => 'Y']),
+            'data' => $this->m_pembelian->getData('tbl_barang'),
             'supplier' => $this->m_pembelian->getAllData('tbl_supplier'),
             'table' => $this->read_cart()
         ];
@@ -341,7 +346,7 @@ class Pembelian extends CI_Controller
 
             if ($this->form_validation->run() == TRUE) {
                 //ambil barang sesuai kode
-                $get_barang = $this->m_pembelian->getData('tbl_barang', ['kode_barang' => $this->security->xss_clean($this->input->post('barangx', TRUE)), 'active' => 'Y']);
+                $get_barang = $this->m_pembelian->getData('tbl_barang', ['kode_barang' => $this->security->xss_clean($this->input->post('barangx', TRUE))]);
 
                 if ($get_barang->num_rows() == 1) {
                     //fetch data barang dan masukkan kedalam cart
