@@ -157,7 +157,7 @@
     <script src="<?= base_url('assets/js/js-cookie.js'); ?>"></script>
     <!-- Custom Javascript -->
     <?php
-    $arr_uri = array('stok_barang', 'barang','pegawai', 'supplier', 'data_pembelian', 'data_penjualan','cabang');
+    $arr_uri = array('stok_barang', 'barang','pegawai', 'supplier', 'data_pembelian', 'data_penjualan','cabang', 'stok');
 
     if (in_array(strtolower($this->uri->segment(1)), $arr_uri) && !$this->uri->segment(2)) :
         switch ($this->uri->segment(1)) {
@@ -182,6 +182,10 @@
             case 'cabang':
                 $file = 'ajax_cabang';
                 break;
+            case 'stok':
+                $file = 'ajax_stok';
+                break;
+            
 
         }
     ?>
@@ -211,6 +215,12 @@
         </script>
 
     <?php endif; ?>
+
+    <?php if ($this->uri->segment(1) == 'stok' ): ?>
+        <script>
+            $('#tabel_stok').DataTable();
+        </script>
+    <?php endif ?>
 
     <script>
         $(document).ready(function() {
@@ -802,6 +812,63 @@
                             swal({
                                 title: "Error!",
                                 text: "Data supplier gagal dihapus",
+                                type: "error",
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }, function() {
+                                swal.close();
+                            });
+                        }
+
+                    }
+                });
+            });
+        }
+
+        function hapus_cabang(id) {
+            swal({
+                title: 'Apakah anda yakin akan menghapus data ini ?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Ya, Hapus!',
+                closeOnConfirm: false
+            }, function() {
+                var csrf_token = Cookies.get('csrf_cookie');
+                var tabel = $('#tables').DataTable();
+
+                $.ajax({
+                    url: "<?= site_url('hapus_cabang'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id,
+                        csrf_token: csrf_token
+                    },
+                    success: function(obj) {
+
+                        var a = $.parseJSON(obj);
+
+                        if (a.message == 'success') {
+                            swal({
+                                title: "Success!",
+                                text: "Data lokasi berhasil dihapus",
+                                type: "success",
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }, function() {
+                                swal.close();
+
+                                $('#tables').each(function() {
+                                    dt = $(this).DataTable();
+                                    dt.ajax.reload();
+                                });
+                            });
+                        } else {
+                            swal({
+                                title: "Error!",
+                                text: "Data lokasi gagal dihapus",
                                 type: "error",
                                 showCancelButton: false,
                                 showConfirmButton: false,

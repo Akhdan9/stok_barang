@@ -258,7 +258,7 @@ class Data_barang extends CI_Controller
 
             if ($this->form_validation->run() == TRUE) {
                 //tangkap rowid
-                $id = $this->security->xss_clean($this->input->post('id', TRUE));
+                $id = $this->security->xss_clean($this->input->post('kode', TRUE));
 
                 $hapus = $this->m_barang->delete('tbl_barang', ['kode_barang' => $id]);
 
@@ -295,7 +295,8 @@ class Data_barang extends CI_Controller
                 $row[] = $i->brand;
                 $row[] = $i->item_no;
                 $row[] = $i->size;
-                $row[] = '<a href="' . site_url('edit_barang/' . $i->kode_barang) . '" class="btn btn-warning btn-sm text-white">Edit</a>';
+                $row[] = '<a href="' . site_url('edit_barang/' . $i->kode_barang) . '" class="btn btn-warning btn-sm text-white">Edit</a>
+                <button type="button" class="btn btn-danger btn-sm"onclick="hapus_barang(\'' . $i->kode_barang . '\')">Hapus</button>';
 
                 $data[] = $row;
             }

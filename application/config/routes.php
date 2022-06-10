@@ -99,7 +99,17 @@ $route['ajax_pembelian'] = 'pembelian/ajax_pembelian';
 //route data cabang
 $route['cabang'] = 'data_cabang/index';
 $route['ajax_cabang'] = 'data_cabang/ajax_cabang';
+$route['tambah_cabang'] = 'data_cabang/tambah_cabang';
+$route['edit_cabang'] = 'data_cabang/edit_cabang';
+$route['edit_cabang/(:any)'] = 'data_cabang/edit_cabang/$1';
+$route['hapus_cabang'] = 'data_cabang/hapus_data';
 
+//route data stok
+$route['stok'] = 'stok/index';
+$route['ajax_stok'] = 'stok/ajax_stok';
+$route['stok/(:any)'] = 'stok/edit_stok/$1';
+$route['tambah_stok'] = 'stok/tambah_data';
+$route['hapus_stok'] = 'stok/hapus_data';
 
 
 //route data penjualan barang

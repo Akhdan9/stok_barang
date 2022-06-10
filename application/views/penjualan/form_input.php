@@ -38,7 +38,7 @@
                 <option value="" disabled selected>Pilih Barang</option>
                 <?php foreach ($data->result() as $d) : ?>
                     <option value="<?= $d->kode_barang; ?>">
-                        <?= $d->nama_barang . ' ( ' . $d->brand . ' )'; ?>
+                        <?= $d->nama_barang; ?>
                     </option>
                 <?php endforeach; ?>
             </select>

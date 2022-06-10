@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class M_cabang extends CI_Model
 {
     var $table           = 'tbl_lokasi';
-    var $column_order    =  array(null, 'nama_cabang'); //set column field database untuk datatable order
+    var $column_order    =  array(null, 'nama_cabang', null); //set column field database untuk datatable order
     var $column_search   =  array('nama_cabang'); //set column field database untuk datatable search
     var $order = array('id_cabang' => 'asc'); // default order
 

@@ -111,7 +111,7 @@ class Penjualan extends CI_Controller
 
         $data = [
             'title' => 'Tambah Data penjualan Barang',
-            'data' => $this->m_penjualan->getData('tbl_barang', ['active' => 'Y']),
+            'data' => $this->m_penjualan->getAllData('tbl_barang'),
             'table' => $this->read_cart()
         ];
 
@@ -306,7 +306,7 @@ class Penjualan extends CI_Controller
         $data = [
             'title' => 'Edit Data Penjualan',
             'fdata' => $fData,
-            'data' => $this->m_penjualan->getData('tbl_barang', ['active' => 'Y']),
+            'data' => $this->m_penjualan->getData('tbl_barang'),
             'table' => $this->read_cart()
         ];
 
@@ -333,16 +333,16 @@ class Penjualan extends CI_Controller
             if ($this->form_validation->run() == TRUE) {
                 //ambil data
                 $where = [
-                    'kode_barang' => $this->security->xss_clean($this->input->post('id', TRUE)), 'active' => 'Y'
+                    'id_pembelian' => $this->security->xss_clean($this->input->post('id', TRUE))
                 ];
-                $getBarang = $this->m_penjualan->getData('tbl_barang', $where);
+                $getBarang = $this->m_pembelian->getData('tbl_detail_pembelian', $where);
                 //cek jumlah data
                 if ($getBarang->num_rows() == 1) {
                     $barang = $getBarang->row();
-                    $stok = $barang->stok;
+                    $stok = $barang->qty;
                     //cari item di dalam cart
                     foreach ($this->cart->contents() as $c) {
-                        if ($c['id'] == $barang->kode_barang) {
+                        if ($c['id'] == $barang->id_pembelian) {
                             $stok = $stok - $c['qty'];
                         }
                     }
@@ -406,7 +406,7 @@ class Penjualan extends CI_Controller
             if ($this->form_validation->run() == TRUE) {
                 //ambil barang sesuai kode
                 $where = [
-                    'kode_barang' => $this->security->xss_clean($this->input->post('id', TRUE)), 'active' => 'Y'
+                    'kode_barang' => $this->security->xss_clean($this->input->post('id', TRUE))
                 ];
 
                 $get_barang = $this->m_penjualan->getData('tbl_barang', $where);
