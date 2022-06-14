@@ -32,7 +32,7 @@ if ($this->session->flashdata('error')) {
                 <th scope="col">ID Penjualan</th>
                 <th scope="col">Tanggal Penjualan</th>
                 <th scope="col">Nama Pembeli</th>
-                <th scope="col">Jenis Barang</th>
+                <th scope="col">Jumlah Barang</th>
                 <th scope="col">Total Harga</th>
                 <th scope="col">Petugas</th>
                 <th scope="col">Opsi</th>

@@ -34,12 +34,13 @@ class M_penjualan extends CI_Model
 
     function getDataPenjualan($id)
     {
-        $select = 'p.id_penjualan AS id_penjualan, tgl_penjualan, qty, dp.harga AS harga, kode_barang, nama_barang, fullname, u.id_user AS id_user, nama_pembeli';
+        $select = 'p.id_penjualan AS id_penjualan, tgl_penjualan, qty, dp.harga AS harga, kode_barang, nama_barang, fullname, u.id_user AS id_user, nama_pembeli, l.id_cabang AS id_cabang, nama_cabang';
 
         $table = 'tbl_penjualan p
                     LEFT JOIN tbl_detail_penjualan dp ON(p.id_penjualan = dp.id_penjualan)
                     LEFT JOIN tbl_barang b ON(dp.id_barang = b.kode_barang)
-                    LEFT JOIN tbl_user u ON(p.id_user = u.id_user)';
+                    LEFT JOIN tbl_user u ON(p.id_user = u.id_user)
+                    LEFT JOIN tbl_lokasi l ON(p.id_cabang = l.id_cabang)';
 
         $where = array('p.id_penjualan' => $id);
 

@@ -112,6 +112,7 @@ class Penjualan extends CI_Controller
         $data = [
             'title' => 'Tambah Data penjualan Barang',
             'data' => $this->m_penjualan->getAllData('tbl_barang'),
+            'lokasi' => $this->m_penjualan->getAllData('tbl_lokasi'),
             'table' => $this->read_cart()
         ];
 
@@ -313,65 +314,6 @@ class Penjualan extends CI_Controller
         $this->template->kasir('penjualan/form_edit', $data);
     }
 
-    public function cari_barang_penjualan()
-    {
-        $this->is_login();
-        //cek apakah request berupa ajax atau bukan, jika bukan maka redirect ke home
-        if ($this->input->is_ajax_request()) {
-            //validasi data
-            $this->form_validation->set_rules(
-                'id',
-                'Barang',
-                'required|min_length[5]|max_length[6]',
-                array(
-                    'required' => '{field} wajib dipilih',
-                    'min_length' => '{field} tidak valid',
-                    'max_length' => '{field} tidak valid'
-                )
-            );
-
-            if ($this->form_validation->run() == TRUE) {
-                //ambil data
-                $where = [
-                    'id_pembelian' => $this->security->xss_clean($this->input->post('id', TRUE))
-                ];
-                $getBarang = $this->m_pembelian->getData('tbl_detail_pembelian', $where);
-                //cek jumlah data
-                if ($getBarang->num_rows() == 1) {
-                    $barang = $getBarang->row();
-                    $stok = $barang->qty;
-                    //cari item di dalam cart
-                    foreach ($this->cart->contents() as $c) {
-                        if ($c['id'] == $barang->id_pembelian) {
-                            $stok = $stok - $c['qty'];
-                        }
-                    }
-
-                    $table = $this->read_cart();
-
-                    $array = ['table' => $table, 'sisa' => $stok, 'status' => 'success'];
-
-                    echo json_encode($array);
-                } else {
-                    $table = $this->read_cart();
-                    $alert = '<div class="alert alert-danger" role="alert">Data barang tidak ditemukan</div>';
-
-                    $array = ['table' => $table, 'alert' => $alert, 'status' => 'failed'];
-
-                    echo json_encode($array);
-                }
-            } else {
-                $table = $this->read_cart();
-                $alert = '<div class="alert alert-danger" role="alert">Data barang tidak ditemukan</div>';
-
-                $array = ['table' => $table, 'alert' => $alert, 'status' => 'failed'];
-
-                echo json_encode($array);
-            }
-        } else {
-            redirect('data_penjualan');
-        }
-    }
 
     public function tambah_cart_penjualan()
     {

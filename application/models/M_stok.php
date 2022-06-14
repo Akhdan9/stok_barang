@@ -3,14 +3,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_stok extends CI_Model
 {
-    var $select = array('s.id_stok AS id_stok', 'count(qty) AS jumlah', 'nama_barang', 'nama_cabang'); //data yang akan diambil
-    var $table           = 'tbl_stok s 
-                            JOIN tbl_barang b ON(s.id_barang = b.kode_barang)
-                            JOIN tbl_lokasi l ON(s.id_cabang = l.id_cabang)
-                            LEFT JOIN tbl_pembelian p ON(s.id_pembelian = p.id_pembelian)
-                            LEFT JOIN tbl_penjualan j ON(s.id_penjualan = j.id_penjualan)';
+    var $select = array('s.id_stok AS id_stok', 'nama_barang', 'nama_cabang', 'id_pembelian', 'id_penjualan'); //data yang akan diambil
+    var $table           = '((((tbl_stok s 
+                                LEFT JOIN tbl_barang b ON(s.id_barang = b.kode_barang))
+                                LEFT JOIN tbl_lokasi l ON(s.id_cabang = l.id_cabang))
+                                LEFT JOIN tbl_pembelian p ON(s.id_pembelian = p.id_pembelian))
+                                LEFT JOIN tbl_penjualan j ON(s.id_penjualan = j.id_penjualan))';
     
-    var $column_order    =  array(null, 's.id_stok', 'nama_barang', 'qty', 'nama_cabang', 'p.id_penjualan' ,null); //set column field database untuk datatable order
+    var $column_order    =  array(null, 's.id_stok', 'nama_barang', 'nama_cabang', 'id_pembelian', 'id_penjualan', null); //set column field database untuk datatable order
     var $column_search   =  array('s.id_stok', 'nama_barang', 'nama_cabang'); //set column field database untuk datatable search
 
     function __construct()
@@ -34,6 +34,14 @@ class M_stok extends CI_Model
     function save($table = null, $data = null)
     {
         return $this->db->insert($table, $data);
+    }
+    function multiSave($table = null, $data = array())
+    {
+        $jumlah = count($data);
+
+        if ($jumlah > 0) {
+            $this->db->insert_batch($table, $data);
+        }
     }
 
     function update($table = null, $data = null, $where = null)

@@ -3,13 +3,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pembelian extends CI_Controller
 {
+
     function __construct()
     {
         parent::__construct();
         //load library
-        $this->load->library(['template', 'form_validation', 'cart']);
+        $this->load->library(['template', 'form_validation', 'cart', 'cartpemb']);
         //load model
         $this->load->model('m_pembelian');
+        $this->load->model('m_stok');
 
         header('Last-Modified:' . gmdate('D, d M Y H:i:s') . 'GMT');
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
@@ -23,11 +25,14 @@ class Pembelian extends CI_Controller
         $this->is_login();
         //kosongkan cart
         $this->cart->destroy();
-
+        $this->cartpemb->destroy();
+    
         $data = [
-            'title' => 'Data Pembelian Barang'
+            'title' => 'Data Pembelian Barang',
+            
         ];
 
+        
         $this->template->kasir('pembelian/index', $data);
     }
 
@@ -77,38 +82,66 @@ class Pembelian extends CI_Controller
                     'id_supplier' => $sup,
                     'id_user' => $user
                 ];
+
                 //baca cart dan memasukkannya dalam array untuk disimpan
                 $cart = array();
 
-                foreach ($this->cart->contents() as $c) {
+                //cartStock
+                $cartStok = array();
+                
+                $counttime = 0;
+                foreach ($this->cartpemb->contents() as $c) {
+                    $id_pembelian = $id;
                     $item = [
-                        'id_pembelian' => $id,
+                        'id_pembelian' => $id_pembelian,
                         'id_barang' => $c['id'],
-                        'qty' => $c['qty'],
+                        'qty' => $c['qty'], //ganti id lokasi di $item stock
                         'harga' => $c['price']
                     ];
+                    
+                    //foreach sebanyak qty
+                    for($x = 1; $x <= $c['qty']; $x++){
+                        $counttime++;
+                        $id_stok = 'ID' . time() + $counttime;
+                        $itemStok = [
+                            'id_stok' => $id . $x,
+                            'id_barang' => $c['id'],
+                            'id_cabang' => 1,
+                            'id_pembelian' => $id_pembelian,
+                        ];
+                        //array push item stock to cart stock
+                        array_push($cartStok, $itemStok);
+                    }
+
+                    //item stock
 
                     //push ke array cart
                     array_push($cart, $item);
                 }
+
+
                 //simpan data pembelian
                 $simpan = $this->m_pembelian->save('tbl_pembelian', $data_pembelian);
 
                 if ($simpan) {
                     //simpan data detail pembelian
                     $simpanPembelian = $this->m_pembelian->multiSave('tbl_detail_pembelian', $cart);
-                    if ($simpanPembelian){
-                    //kosongkan cart
-                    $this->cart->destroy();
-                    //buat notifikasi penyimpanan berhasil
-                    $this->session->set_flashdata('success', 'Data pembelian berhasil ditambahkan...');
-
-                    
+                    //simpan stock 
+                    $simpanStok = $this->m_stok->multiSave('tbl_stok', $cartStok);
+                    if ($simpanPembelian && $simpanStok){
+                        //kosongkan cart
+                       $this->cartpemb->destroy();
+                       //buat notifikasi penyimpanan berhasil
+                       $this->session->set_flashdata('success', 'Data pembelian berhasil ditambahkan...');
+                        // if($simpanStok){
+                        //     //kosongkan cart
+                        //     $this->cart->destroy();
+                        //     //buat notifikasi penyimpanan berhasil
+                        //     $this->session->set_flashdata('success', 'Data Stok berhasil ditambahkan...');
+                        // }
                     } 
                     redirect('data_pembelian');
-                } 
-
-                
+                }  
             }
         }
 
@@ -357,17 +390,32 @@ class Pembelian extends CI_Controller
                         'qty'     => $this->security->xss_clean($this->input->post('jumlah', TRUE)),
                         'price'   => $this->security->xss_clean(str_replace('.', '', $this->input->post('harga', TRUE))),
                         'name'    => $b->nama_barang
+
+                        
                     );
+                        
+                        $this->cartpemb->insert($keranjang);
 
-                    $this->cart->insert($keranjang);
+                        $table = $this->read_cartpemb();
 
-                    $table = $this->read_cart();
+                        $alert = '<div class="alert alert-success" role="alert">Data berhasil ditambahkan ke daftar</div>';
 
-                    $alert = '<div class="alert alert-success" role="alert">Data berhasil ditambahkan ke daftar</div>';
+                        $arr = array('table' => $table, 'alert' => $alert, 'status' => 'success');
 
-                    $arr = array('table' => $table, 'alert' => $alert, 'status' => 'success');
+                        echo json_encode($arr);
 
-                    echo json_encode($arr);
+                    // if (){
+                        
+                    // } else {
+                    //     $table = $this->cartpemb->read_cart();
+
+                    //     $alert = '<div class="alert alert-success" role="alert">Data gagal ditambahkan ke daftar</div>';
+                        
+                    //     $arr = array('table' => $table, 'alert' => $alert, 'status' => 'gagal');
+
+                    //     echo json_encode($arr);
+                    // }
+
                 } else {
                     $table = $this->read_cart();
 
@@ -644,5 +692,31 @@ class Pembelian extends CI_Controller
         if (!$this->session->userdata('level')) {
             redirect('login');
         }
+    }
+    
+    private function read_cartpemb()
+    {
+        if ($this->cartpemb->contents()) {
+
+            $table = '';
+            $i = 1;
+            foreach ($this->cartpemb->contents() as $c) {
+                $table .= '<tr><td>' . $i++ . '</td>';
+                $table .= '<td>' . $c['name'] . '</td>';
+                $table .= '<td class="text-center">' . $c['qty'] . '</td>';
+                $table .= '<td class="text-right">' . number_format($c['price'], 0, ',', '.') . '</td>';
+                $table .= '<td class="text-right">' . number_format($c['subtotal'], 0, ',', '.') . '</td>';
+                $table .= '<td class="text-center">
+                                <button type="button" class="btn btn-warning btn-sm text-white" onclick="get_item(\'' . $c['rowid'] . '\')">Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm text-white" onclick="remove_item(\'' . $c['rowid'] . '\')">Hapus</button>
+                            </td></tr>';
+            }
+        } else {
+            $table = '<tr>
+                        <td scope="col" colspan="6" class="text-center"><i>Belum ada data</i></td>
+                    </tr>';
+        }
+
+        return $table;
     }
 }

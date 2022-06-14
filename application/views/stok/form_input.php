@@ -44,7 +44,7 @@
                 <?php endforeach; ?>
             </select>
             <div class="invalid-feedback">
-                <?= form_error('supplier', '<p class="error-message">', '</p>'); ?>
+                <?= form_error('stok', '<p class="error-message">', '</p>'); ?>
             </div>
         </div>
     </div>

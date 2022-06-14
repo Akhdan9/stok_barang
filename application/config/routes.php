@@ -107,6 +107,7 @@ $route['hapus_cabang'] = 'data_cabang/hapus_data';
 //route data stok
 $route['stok'] = 'stok/index';
 $route['ajax_stok'] = 'stok/ajax_stok';
+$route['edit_stok'] = 'stok/edit_stok';
 $route['stok/(:any)'] = 'stok/edit_stok/$1';
 $route['tambah_stok'] = 'stok/tambah_data';
 $route['hapus_stok'] = 'stok/hapus_data';

@@ -35,6 +35,7 @@ function tanggal_indo($tgl)
             <th scope="col">Kode Barang</th>
             <th scope="col">Nama Barang</th>
             <th scope="col">Qty</th>
+            <th scope="col">Lokasi</th>
             <th scope="col">Harga Satuan</th>
             <th scope="col">Harga Total</th>
         </tr>
@@ -54,6 +55,8 @@ function tanggal_indo($tgl)
                 <td><?= $dd->kode_barang; ?></td>
                 <td><?= $dd->nama_barang; ?></td>
                 <td><?= $dd->qty; ?></td>
+                <td><?= $dd->nama_cabang; ?></td>
+
                 <td>
                     <span class="float-left">Rp.</span>
                     <span class="float-right pr-3">

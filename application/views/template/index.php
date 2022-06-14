@@ -216,11 +216,11 @@
 
     <?php endif; ?>
 
-    <?php if ($this->uri->segment(1) == 'stok' ): ?>
+    <!-- <?php if ($this->uri->segment(1) == 'stok' ): ?>
         <script>
             $('#tabel_stok').DataTable();
         </script>
-    <?php endif ?>
+    <?php endif ?> -->
 
     <script>
         $(document).ready(function() {
@@ -327,6 +327,8 @@
                 }
             });
         }
+
+        
 
         function update_cart() {
             var jumlah = $('#jumlahx').val();
