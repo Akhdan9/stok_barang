@@ -325,77 +325,83 @@ class Penjualan extends CI_Controller
             $this->form_validation->set_rules(
                 'id',
                 'Barang',
-                'required|min_length[4]|max_length[6]',
+                'required|min_length[4]',
                 array(
                     'required' => '{field} wajib dipilih',
                     'min_length' => 'Isi {field} tidak valid',
-                    'max_length' => 'Isi {field} tidak valid',
                 )
             );
 
             $this->form_validation->set_rules(
-                'qty',
+                'jumlah',
                 'Jumlah',
-                "required|min_length[1]|regex_match[/^[0-9]+$/]|greater_than[0]",
+                "required",
                 array(
-                    'required' => '{field} wajib diisi',
-                    'min_length' => 'Isi {field} tidak valid',
-                    'regex_match' => '{field} hanya boleh angka',
-                    'greater_than' => '{field} harus lebih dari nol'
+                    'required' => '{field} wajib diisi'
+                )
+            );
+
+            $this->form_validation->set_rules(
+                'harga',
+                'Harga Jual',
+                "required",
+                array(
+                    'required' => '{field} wajib diisi'
                 )
             );
 
             if ($this->form_validation->run() == TRUE) {
                 //ambil barang sesuai kode
-                $where = [
-                    'kode_barang' => $this->security->xss_clean($this->input->post('id', TRUE))
-                ];
-
-                $get_barang = $this->m_penjualan->getData('tbl_barang', $where);
+                $get_barang = $this->m_pembelian->getData('tbl_barang', ['kode_barang' => $this->security->xss_clean($this->input->post('barangx', TRUE))]);
 
                 if ($get_barang->num_rows() == 1) {
                     //fetch data barang dan masukkan kedalam cart
                     $b = $get_barang->row();
-                    $stok = $b->stok;
-                    //cari item di dalam cart
-                    foreach ($this->cart->contents() as $c) {
-                        if ($c['id'] == $b->kode_barang) {
-                            $stok = $stok - $c['qty'];
-                        }
-                    }
+                    
+                    $keranjang = array(
+                        'id'      => $b->kode_barang,
+                        'qty'     => $this->security->xss_clean($this->input->post('qty', TRUE)),
+                        'price'   => $b->harga,
+                        'name'    => $b->nama_barang
+                    );
 
-                    if ($this->security->xss_clean($this->input->post('qty', TRUE)) > $stok) {
-
-                        $alert = '<div class="alert alert-danger" role="alert">Jumlah beli melebihi stok yang ada</div>';
-
-                        $status = 'gagal';
-                    } else {
-                        $keranjang = array(
-                            'id'      => $b->kode_barang,
-                            'qty'     => $this->security->xss_clean($this->input->post('qty', TRUE)),
-                            'price'   => $b->harga,
-                            'name'    => $b->nama_barang
-                        );
-
-                        $this->cart->insert($keranjang);
-
-                        $alert = '<div class="alert alert-success" role="alert">Data berhasil ditambahkan ke daftar</div>';
-
-                        $status = 'success';
-                    }
+                    $this->cart->insert($keranjang);
 
                     $table = $this->read_cart();
 
+                    $alert = '<div class="alert alert-success" role="alert">Data berhasil ditambahkan ke daftar</div>';
+
+                    $status = 'success';
+
                     $arr = array('table' => $table, 'alert' => $alert, 'status' => $status);
+
+                    echo json_encode($arr);
+
+                    //cari item di dalam cart
+                    // foreach ($this->cart->contents() as $c) {
+                    //     if ($c['id'] == $b->kode_barang) {
+                    //         $stok = $stok - $c['qty'];
+                    //     }
+                    // }
+
+                    // if ($this->security->xss_clean($this->input->post('qty', TRUE)) > $stok) {
+
+                    //     $alert = '<div class="alert alert-danger" role="alert">Jumlah beli melebihi stok yang ada</div>';
+
+                    //     $status = 'gagal';
+                    // } else {
+
+                    // }
+                
                 } else {
                     $table = $this->read_cart();
 
-                    $alert = '<div class="alert alert-danger" role="alert">Barang tidak ditemukan</div>';
+                    $alert = '<div class="alert alert-danger" role="alert">Data tidak valid</div>';
 
                     $arr = array('table' => $table, 'alert' => $alert, 'status' => 'gagal');
-                }
 
-                echo json_encode($arr);
+                    echo json_encode($arr);
+                }
             } else {
                 $table = $this->read_cart();
 
@@ -700,6 +706,7 @@ class Penjualan extends CI_Controller
                 $table .= '<tr><td>' . $i++ . '</td>';
                 $table .= '<td>' . $c['name'] . '</td>';
                 $table .= '<td class="text-center">' . $c['qty'] . '</td>';
+                $table .= '<td class="text-center">' . $c['lokasi'] . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['price'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['subtotal'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-center">

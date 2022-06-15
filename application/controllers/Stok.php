@@ -37,7 +37,7 @@ class Stok extends CI_Controller
         }
     }
 
-    public function tambah_data()
+    public function editStok_All()
     {
         $this->is_admin();
         //ketika user mengklik submit
@@ -54,10 +54,21 @@ class Stok extends CI_Controller
                 )
             );
 
+            $this->form_validation->set_rules(
+                'nama_cabang',
+                'Nama Lokasi',
+                "required|min_length[10]|max_length[255]",
+                array(
+                    'required' => '{field} wajib diisi',
+                    'min_length' => '{field} minimal 5 karakter',
+                    'max_length' => '{field} maksimal 30 karakter'
+                )
+            );
+
             if ($this->input->post('hp', TRUE) != '') {
                 $this->form_validation->set_rules(
-                    'qty_in',
-                    'Stok',
+                    'stok',
+                    'Jumlah',
                     "required|min_length[8]|max_length[15]",
                     array(
                         'required' => '{field} wajib diisi',
@@ -68,8 +79,8 @@ class Stok extends CI_Controller
             }
 
             $this->form_validation->set_rules(
-                'nama_cabang',
-                'Nama Lokasi',
+                'cabangtj',
+                'Cabang Tujuan',
                 "required|min_length[10]|max_length[255]",
                 array(
                     'required' => '{field} wajib diisi',
@@ -84,10 +95,11 @@ class Stok extends CI_Controller
                 $nama = $this->security->xss_clean($this->input->post('nama_barang', TRUE));
                 $stok = $this->security->xss_clean($this->input->post('qty_inv', TRUE));
                 $nama_lokasi = $this->security->xss_clean($this->input->post('nama_cabang', TRUE));
+                $cabangTj = $this->security->xss_clean($this->input->post('cabangTj', TRUE));
 
                 $data_simpan = [
                     'nama_supplier' => $nama,
-                    'qty_inv' => $stok,
+                    'stok' => $stok,
                     'nama_lokasi' => $nama_lokasi
                 ];
 
@@ -96,7 +108,7 @@ class Stok extends CI_Controller
                 if ($simpan) {
                     $this->session->set_flashdata('success', 'Data Supplier berhasil ditambahkan..');
 
-                    redirect('supplier');
+                    redirect('stok');
                 }
             }
         }
@@ -108,7 +120,7 @@ class Stok extends CI_Controller
             'pembelian' => $this->m_stok->getAllData('tbl_pembelian'),
         ];
 
-        $this->template->kasir('stok/form_input', $data);
+        $this->template->kasir('stok/form_editall', $data);
         
     }
 
@@ -117,6 +129,75 @@ class Stok extends CI_Controller
         if (!$this->session->userdata('level')) {
             redirect('login');
         }
+    }
+
+    public function edit_stok($id)
+    {
+        $this->is_admin();
+
+        //ambil data
+        $getData = $this->m_stok->getData('tbl_stok',['id_stok' => $id]);
+        //cek jumlah data
+        if ($getData->num_rows() != 1) {
+            redirect('stok');
+        }
+        //ketika user mengklik submit
+        if ($this->input->post('submit', TRUE) == 'Update') {
+            //validasi form
+            $this->form_validation->set_rules(
+                'id_stok',
+                'Id Stok',
+                "required|min_length[2]|max_length[100]",
+                array(
+                    'required' => '{field} wajib diisi',
+                    'min_length' => '{field} minimal 2 karakter',
+                    'max_length' => '{field} maksimal 100 karakter'
+                )
+            );
+
+            $this->form_validation->set_rules(
+                'id_cabang',
+                'Nama Cabang',
+                "required|min_length[2]|max_length[100]",
+                array(
+                    'required' => '{field} wajib diisi',
+                    'min_length' => '{field} minimal 2 karakter',
+                    'max_length' => '{field} maksimal 100 karakter'
+                )
+            );
+
+            //jika validasi berhasil maka lakukan proses penyimpanan
+            if ($this->form_validation->run() == TRUE) {
+                //tampung data ke variabel
+                $id_stok = $this->security->xss_clean($this->input->post('id_stok', TRUE));
+                $id_cabang = $this->security->xss_clean($this->input->post('id_cabang', TRUE));
+
+                $data_update = [
+                    'id_cabang' => $id_cabang,
+                ];
+
+                $up = $this->m_stok->update('tbl_stok', $data_update, ['id_stok' => $id_stok]);
+
+                if ($up) {
+                    $this->m_pembelian->multiSave('tbl_stok');
+                    $this->session->set_flashdata('success', 'Data Stok berhasil diperbarui..');
+                    redirect('stok');
+                } 
+            }
+        }
+
+        //ambil data
+        // $where = [
+        //     'id_stok' => $this->security->xss_clean($id)
+        // ];
+
+        $data = [
+            'title' => 'Edit Stok',
+            'data' => $this->m_stok->getAllData('tbl_lokasi'),
+            'stok' => $getData->row()
+        ];
+
+        $this->template->kasir('stok/form_editcabang', $data);
     }
 
     public function ajax_stok()

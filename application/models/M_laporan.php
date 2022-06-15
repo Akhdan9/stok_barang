@@ -24,9 +24,9 @@ class M_laporan extends CI_Model
                     (SELECT qty, id_barang FROM tbl_pembelian pm
                     LEFT JOIN tbl_detail_pembelian dpm ON(pm.id_pembelian = dpm.id_pembelian AND tgl_pembelian > \'' . $tanggal . '\')) AS f ON(b.kode_barang = f.id_barang) ';
 
-        $select = 'kode_barang, nama_barang, brand, stok, SUM(c.qty) AS qty_penjualan, SUM(d.qty) AS qty_pembelian, SUM(e.qty) AS qty_penjualan_new, SUM(f.qty) AS qty_pembelian_new';
+        $select = 'kode_barang, nama_barang, brand, SUM(c.qty) AS qty_penjualan, SUM(d.qty) AS qty_pembelian, SUM(e.qty) AS qty_penjualan_new, SUM(f.qty) AS qty_pembelian_new';
 
-        $group = ['kode_barang', 'nama_barang', 'brand', 'stok'];
+        $group = ['kode_barang', 'nama_barang', 'brand'];
 
         $this->db->select($select);
         $this->db->from($table);

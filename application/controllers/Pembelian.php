@@ -214,7 +214,7 @@ class Pembelian extends CI_Controller
         $this->template->kasir('pembelian/detail', $data);
     }
 
-    public function edit_pembelian($id = null)
+    public function edit_pembelian($id)
     {
         if ($id == null) {
             redirect('data_pembelian');
@@ -312,6 +312,7 @@ class Pembelian extends CI_Controller
         if ($this->session->userdata('level') != 'admin' && $this->session->userdata('UserID') != $fData->id_user) {
             redirect('data_pembelian');
         }
+        
         //masukkan detail pembelian ke cart
         if (!$this->cart->contents()) {
             $dataCart = [];
@@ -333,7 +334,7 @@ class Pembelian extends CI_Controller
         $data = [
             'title' => 'Edit Data Pembelian',
             'fdata' => $fData,
-            'data' => $this->m_pembelian->getData('tbl_barang'),
+            'data' => $this->m_pembelian->getAllData('tbl_barang'),
             'supplier' => $this->m_pembelian->getAllData('tbl_supplier'),
             'table' => $this->read_cart()
         ];

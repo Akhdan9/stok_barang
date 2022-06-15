@@ -49,7 +49,7 @@
         <div class="col-sm-6">
             <select class="custom-select custom-select-sm barang-select" id="id_cabang">
                 <option value="" disabled selected>Pilih Lokasi</option>
-                <?php foreach ($data->result() as $l) : ?>
+                <?php foreach ($lokasi->result() as $l) : ?>
                     <option value="<?= $l->id_cabang; ?>">
                         <?= $l->nama_cabang; ?>
                     </option>
@@ -64,6 +64,12 @@
         </div>
     </div>
     <div class="form-group row">
+        <label for="harga" class="col-sm-2 col-form-label">Harga jual</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control form-control-sm uang" id="harga" placeholder="Harga Jual">
+        </div>
+    </div>
+    <div class="form-group row">
         <div class="col-sm-3 offset-sm-2">
             <div id="rowid-field"></div>
             <div id="btn-act">
@@ -73,8 +79,9 @@
             </div>
         </div>
     </div>
-
-    <table class="table table-striped table-hover table-sm">
+    
+    <div class="table-responsive">
+    <table class="table table-sm table-hover">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
@@ -90,6 +97,7 @@
             <?= $table; ?>
         </tbody>
     </table>
+    </div>
     <div class="col-sm-4 offset-sm-8">
         <button type="submit" name="submit" class="btn btn-primary btn-sm" value="Submit">
             <i class="fa fa-save"></i> Simpan Data Penjualan

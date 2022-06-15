@@ -171,7 +171,6 @@ class Data_supplier extends CI_Controller
 
                 if ($up) {
                     $this->session->set_flashdata('success', 'Data Supplier berhasil diperbarui..');
-
                     redirect('supplier');
                 }
             }

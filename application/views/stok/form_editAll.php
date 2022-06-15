@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-10">
-        <h4 class="mb-0"><i class="fa fa-reply"></i> Tambah Data stok</h4>
+        <h4 class="mb-0"><i class="fa fa-reply"></i> Edit Data stok</h4>
     </div>
 </div>
 <hr class="mt-0" />
@@ -27,9 +27,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="jumlahx" class="col-sm-2 col-form-label">Stok</label>
+        <label for="jumlahx" class="col-sm-2 col-form-label">Jumlah</label>
         <div class="col-sm-2">
-            <input type="number" class="form-control form-control-sm" id="qty_inv" placeholder="Stok">
+            <input type="number" class="form-control form-control-sm" id="stok" placeholder="Jumlah">
         </div>
     </div>
     <div class="form-group row">
