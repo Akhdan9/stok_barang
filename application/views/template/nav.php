@@ -28,7 +28,7 @@
                 <li <?= (in_array(strtolower($this->uri->segment(1)), ['cabang'])) ? 'class="active"' : ''; ?>>
                     <a href="<?= site_url('cabang'); ?>"><i class="fa fa-users"></i> Data Lokasi</a>
                 </li>
-                <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok'])) ? 'class="active"' : ''; ?>>
+                <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok','edit_stok'])) ? 'class="active"' : ''; ?>>
                     <a href="<?= site_url('stok'); ?>"><i class="fa fa-users"></i> Data Stok</a>
                 </li>
             <?php

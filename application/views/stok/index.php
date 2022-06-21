@@ -30,6 +30,7 @@ if ($this->session->flashdata('error')) {
                 <th scope="col">Nama Barang</th>
                 <th scope="col">Nama Lokasi</th>
                 <th scope="col">ID Pembelian</th>
+                <th scope="col">ID Penjualan</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>

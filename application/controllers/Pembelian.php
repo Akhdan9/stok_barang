@@ -176,7 +176,7 @@ class Pembelian extends CI_Controller
                 //tangkap rowid
                 $id = $this->security->xss_clean($this->input->post('id', TRUE));
 
-                $hapus = $this->m_pembelian->delete(['tbl_pembelian', 'tbl_detail_pembelian'], ['id_pembelian' => $id]);
+                $hapus = $this->m_pembelian->delete(['tbl_pembelian', 'tbl_detail_pembelian','tbl_stok'], ['id_pembelian' => $id]);
 
                 if ($hapus) {
                     echo json_encode(['message' => 'success']);
@@ -391,7 +391,6 @@ class Pembelian extends CI_Controller
                         'qty'     => $this->security->xss_clean($this->input->post('jumlah', TRUE)),
                         'price'   => $this->security->xss_clean(str_replace('.', '', $this->input->post('harga', TRUE))),
                         'name'    => $b->nama_barang
-
                         
                     );
                         

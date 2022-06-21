@@ -248,6 +248,24 @@
             $('.supplier').select2();
         });
 
+        $(document).ready(function(){
+            $('#nama_cabang').change(function(){ 
+                var id=$(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "<?= base_url('get_sub_barang') ?>",
+                    data: {
+                        id: id
+                    },
+                    dataType: "JSON",
+                    success: function(response){
+                        $('#barangx').html(response);
+                    }
+                });
+            }); 
+             
+        });
+        
         function imgPreview() {
             const foto = document.querySelector('#foto');
             const fotoLabel = document.querySelector('#FileNameShow');
@@ -327,8 +345,6 @@
                 }
             });
         }
-
-        
 
         function update_cart() {
             var jumlah = $('#jumlahx').val();
@@ -517,47 +533,81 @@
             });
         });
 
-        function tambah_pembelian() {
-            var id = $('#barang-penjualan').val();
-            var sisa = $('#sisa').val();
-            var qty = $('#jumlahx').val();
+        // function tambah_pembelian() {
+        //     var id = $('#barang-penjualan').val();
+        //     var sisa = $('#sisa').val();
+        //     var qty = $('#jumlahx').val();
+        //     var csrf_token = Cookies.get('csrf_cookie');
+        //     $('#barang-penjualan').addClass('pilih-barang');
+
+        //     if (qty > sisa) {
+        //         swal({
+        //             title: "Error!",
+        //             text: "Jumlah beli melebihi stok",
+        //             type: "error",
+        //             showCancelButton: false,
+        //             showConfirmButton: false,
+        //             timer: 2000
+        //         }, function() {
+        //             swal.close();
+        //         });
+
+        //         return false;
+        //     }
+
+        //     $.ajax({
+        //         url: "<?= site_url('tambah_cart_penjualan'); ?>",
+        //         method: "POST",
+        //         data: {
+        //             id: id,
+        //             qty: qty,
+        //             csrf_token: csrf_token
+        //         },
+        //         success: function(data) {
+        //             var a = $.parseJSON(data);
+
+        //             $('#daftar-jual').html(a.table);
+        //             $('#message').html(a.alert);
+        //             $('[name="csrf_token"]').val(Cookies.get('csrf_cookie'));
+
+        //             if (a.status == 'success') {
+        //                 $('.barang-select').val(null).trigger('change');
+        //                 $('#sisa').val('');
+        //                 $('#jumlahx').val('');
+        //             }
+        //         }
+        //     });
+        // }
+
+        function tambah_cart_jual() {
+            var barangx = $('#barangx').val();
+            var jumlah = $('#jumlahx').val();
+            var harga = $('#harga').val();
+            var id_cabang = $('#nama_cabang').val();
             var csrf_token = Cookies.get('csrf_cookie');
-            $('#barang-penjualan').addClass('pilih-barang');
-
-            if (qty > sisa) {
-                swal({
-                    title: "Error!",
-                    text: "Jumlah beli melebihi stok",
-                    type: "error",
-                    showCancelButton: false,
-                    showConfirmButton: false,
-                    timer: 2000
-                }, function() {
-                    swal.close();
-                });
-
-                return false;
-            }
 
             $.ajax({
                 url: "<?= site_url('tambah_cart_penjualan'); ?>",
                 method: "POST",
                 data: {
-                    id: id,
-                    qty: qty,
+                    barangx: barangx,
+                    jumlah: jumlah,
+                    harga: harga,
+                    id_cabang: id_cabang,
                     csrf_token: csrf_token
                 },
-                success: function(data) {
-                    var a = $.parseJSON(data);
+                success: function(obj) {
+                    var x = $.parseJSON(obj);
 
-                    $('#daftar-jual').html(a.table);
-                    $('#message').html(a.alert);
+                    $('#daftar-jual').html(x.table);
+                    $('#message').html(x.alert);
                     $('[name="csrf_token"]').val(Cookies.get('csrf_cookie'));
 
-                    if (a.status == 'success') {
+                    if (x.status == 'success') {
+                        $('.cabang-select').val(null).trigger('change');
                         $('.barang-select').val(null).trigger('change');
-                        $('#sisa').val('');
                         $('#jumlahx').val('');
+                        $('#harga').val('');
                     }
                 }
             });
@@ -928,6 +978,63 @@
                             swal({
                                 title: "Error!",
                                 text: "Data barang gagal dihapus",
+                                type: "error",
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }, function() {
+                                swal.close();
+                            });
+                        }
+
+                    }
+                });
+            });
+        }
+
+        function hapus_stok(id) {
+            swal({
+                title: 'Apakah anda yakin akan menghapus data ini ?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Ya, Hapus!',
+                closeOnConfirm: false
+            }, function() {
+                var csrf_token = Cookies.get('csrf_cookie');
+                var tabel = $('#tables').DataTable();
+
+                $.ajax({
+                    url: "<?= site_url('hapus_stok'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id,
+                        csrf_token: csrf_token
+                    },
+                    success: function(obj) {
+
+                        var a = $.parseJSON(obj);
+
+                        if (a.message == 'success') {
+                            swal({
+                                title: "Success!",
+                                text: "Data stok berhasil dihapus",
+                                type: "success",
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }, function() {
+                                swal.close();
+
+                                $('#tables').each(function() {
+                                    dt = $(this).DataTable();
+                                    dt.ajax.reload();
+                                });
+                            });
+                        } else {
+                            swal({
+                                title: "Error!",
+                                text: "Data stok gagal dihapus",
                                 type: "error",
                                 showCancelButton: false,
                                 showConfirmButton: false,

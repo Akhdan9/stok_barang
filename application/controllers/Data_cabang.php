@@ -122,7 +122,7 @@ class Data_cabang extends CI_Controller
             $this->form_validation->set_rules(
                 'id',
                 'Id cabang',
-                "required|min_length[10]",
+                "required|min_length[1]",
                 array(
                     'required' => '{field} tidak valid',
                     'min_length' => 'Isi {field} tidak valid'
@@ -137,9 +137,7 @@ class Data_cabang extends CI_Controller
 
                 if ($hapus) {
                     echo json_encode(['message' => 'success']);
-                } else {
-                    echo json_encode(['message' => 'failed']);
-                }
+                } 
             } else {
                 echo json_encode(['message' => 'failed']);
             }

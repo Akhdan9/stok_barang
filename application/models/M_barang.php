@@ -45,6 +45,12 @@ class M_barang extends CI_Model
         return $this->db->affected_rows();
     }
 
+    function hapus_barang($id){
+        $this->db->where('kode_barang',$id);
+        $this->db->delete('tbl_barang');
+   return true;
+   }
+
     private function _get_datatables_query()
     {
 

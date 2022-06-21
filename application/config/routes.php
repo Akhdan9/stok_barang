@@ -127,6 +127,7 @@ $route['update_cart_penjualan'] = 'penjualan/update_cart_penjualan';
 $route['hapus_penjualan'] = 'penjualan/hapus_penjualan';
 $route['edit_penjualan'] = 'penjualan/edit_penjualan';
 $route['edit_penjualan/(:any)'] = 'penjualan/edit_penjualan/$1';
+$route['get_sub_barang'] = 'penjualan/get_sub_barang';
 
 //route data laporan
 $route['stok_harian'] = 'laporan/data_stok_harian';
