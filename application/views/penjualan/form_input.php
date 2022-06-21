@@ -32,22 +32,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="barangx" class="col-sm-2 col-form-label">Barang</label>
-        <div class="col-sm-6">
-            <select class="custom-select custom-select-sm barang-select" id="barangx">
-                <option value="" disabled selected>Pilih Barang</option>
-                <?php foreach ($data->result() as $d) : ?>
-                    <option value="<?= $d->kode_barang; ?>">
-                        <?= $d->nama_barang; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
         <label for="cabang" class="col-sm-2 col-form-label">Lokasi</label>
         <div class="col-sm-6">
-            <select class="custom-select custom-select-sm barang-select" id="id_cabang">
+            <select class="custom-select custom-select-sm cabang-select" name="nama_cabang" id="nama_cabang">
                 <option value="" disabled selected>Pilih Lokasi</option>
                 <?php foreach ($lokasi->result() as $l) : ?>
                     <option value="<?= $l->id_cabang; ?>">
@@ -57,23 +44,41 @@
             </select>
         </div>
     </div>
+    
     <div class="form-group row">
-        <label for="jumlahx" class="col-sm-2 col-form-label">Jumlah Barang</label>
-        <div class="col-sm-2">
-            <input type="text" class="form-control form-control-sm qty" id="jumlahx" placeholder="Jumlah Beli">
+        <label for="barangx" class="col-sm-2 col-form-label">Barang</label>
+        <div class="col-sm-6">
+            <select class="custom-select custom-select-sm barang-select" name="barangx" id="barangx">
+                <option value="" disabled selected>Pilih Barang</option>
+                
+            </select>
         </div>
     </div>
     <div class="form-group row">
+        <label for="jumlahx" class="col-sm-2 col-form-label">Jumlah Barang</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control form-control-sm qty" id="jumlahx" name="jumlah" placeholder="Jumlah Jual">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="jumlahx" class="col-sm-2 col-form-label">Jumlah Stok</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control form-control-sm qty" id="jumlah_stok" name="jumlah_stok" placeholder="Jumlah Stok">
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label for="harga" class="col-sm-2 col-form-label">Harga jual</label>
         <div class="col-sm-3">
-            <input type="text" class="form-control form-control-sm uang" id="harga" placeholder="Harga Jual">
+            <input type="text" class="form-control form-control-sm uang" id="harga" name="harga" placeholder="Harga Jual">
         </div>
     </div>
     <div class="form-group row">
         <div class="col-sm-3 offset-sm-2">
             <div id="rowid-field"></div>
             <div id="btn-act">
-                <button type="button" class="btn btn-success btn-sm tambah-penjualan" onclick="tambah_pembelian()">
+                <button type="button" class="btn btn-success btn-sm tambah-penjualan" onclick="tambah_cart_jual()">
                     Tambah Barang
                 </button>
             </div>
@@ -108,3 +113,4 @@
     </div>
 </div>
 <?= form_close(); ?>
+

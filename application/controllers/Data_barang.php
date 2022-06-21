@@ -239,6 +239,11 @@ class Data_barang extends CI_Controller
         $this->template->kasir('data_barang/stok', $data);
     }
 
+    public function delete_barang($id){
+        $this->m_barang->hapus_barang($id);
+        redirect('dashboard');
+    }
+
     public function hapus_data()
     {
         //cek login
@@ -246,15 +251,6 @@ class Data_barang extends CI_Controller
         //validasi request ajax
         if ($this->input->is_ajax_request()) {
             //validasi
-            $this->form_validation->set_rules(
-                'kode',
-                'kode Barang',
-                "required|min_length[10]",
-                array(
-                    'required' => '{field} tidak valid',
-                    'min_length' => 'Isi {field} tidak valid'
-                )
-            );
 
             if ($this->form_validation->run() == TRUE) {
                 //tangkap rowid
@@ -264,11 +260,9 @@ class Data_barang extends CI_Controller
 
                 if ($hapus) {
                     echo json_encode(['message' => 'success']);
-                } else {
-                    echo json_encode(['message' => 'failed']);
-                }
+                } 
             } else {
-                echo json_encode(['message' => 'failed']);
+                echo json_encode(['message' => 'gagal']);
             }
         } else {
             redirect('dashboard');
@@ -296,8 +290,8 @@ class Data_barang extends CI_Controller
                 $row[] = $i->item_no;
                 $row[] = $i->size;
                 $row[] = '<a href="' . site_url('edit_barang/' . $i->kode_barang) . '" class="btn btn-warning btn-sm text-white">Edit</a>
-                <button type="button" class="btn btn-danger btn-sm"onclick="hapus_barang(\'' . $i->kode_barang . '\')">Hapus</button>';
-
+                <button type="button" class="btn btn-danger btn-sm"><a href="' . site_url('data_barang/delete_barang/'. $i->kode_barang). '">Delete</a></button>';
+                
                 $data[] = $row;
             }
 

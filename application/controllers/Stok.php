@@ -147,10 +147,10 @@ class Stok extends CI_Controller
             $this->form_validation->set_rules(
                 'id_stok',
                 'Id Stok',
-                "required|min_length[2]|max_length[100]",
+                "required|min_length[1]|max_length[100]",
                 array(
                     'required' => '{field} wajib diisi',
-                    'min_length' => '{field} minimal 2 karakter',
+                    'min_length' => '{field} minimal 1 karakter',
                     'max_length' => '{field} maksimal 100 karakter'
                 )
             );
@@ -158,10 +158,10 @@ class Stok extends CI_Controller
             $this->form_validation->set_rules(
                 'id_cabang',
                 'Nama Cabang',
-                "required|min_length[2]|max_length[100]",
+                "required|min_length[1]|max_length[100]",
                 array(
                     'required' => '{field} wajib diisi',
-                    'min_length' => '{field} minimal 2 karakter',
+                    'min_length' => '{field} minimal 1 karakter',
                     'max_length' => '{field} maksimal 100 karakter'
                 )
             );
@@ -179,7 +179,6 @@ class Stok extends CI_Controller
                 $up = $this->m_stok->update('tbl_stok', $data_update, ['id_stok' => $id_stok]);
 
                 if ($up) {
-                    $this->m_pembelian->multiSave('tbl_stok');
                     $this->session->set_flashdata('success', 'Data Stok berhasil diperbarui..');
                     redirect('stok');
                 } 
@@ -200,6 +199,40 @@ class Stok extends CI_Controller
         $this->template->kasir('stok/form_editcabang', $data);
     }
 
+    public function hapus_data()
+    {
+        //cek login
+        $this->is_admin();
+        //validasi request ajax
+        if ($this->input->is_ajax_request()) {
+            //validasi
+            $this->form_validation->set_rules(
+                'id',
+                'Id stok',
+                "required|min_length[1]",
+                array(
+                    'required' => '{field} tidak valid',
+                    'min_length' => 'Isi {field} tidak valid'
+                )
+            );
+
+            if ($this->form_validation->run() == TRUE) {
+                //tangkap rowid
+                $id = $this->security->xss_clean($this->input->post('id', TRUE));
+
+                $hapus = $this->m_stok->delete('tbl_stok', ['id_stok' => $id]);
+
+                if ($hapus) {
+                    echo json_encode(['message' => 'success']);
+                } 
+            } else {
+                echo json_encode(['message' => 'failed']);
+            }
+        } else {
+            redirect('dashboard');
+        }
+    }
+
     public function ajax_stok()
     {
         $this->is_login();
@@ -218,7 +251,7 @@ class Stok extends CI_Controller
                 if ($this->session->userdata('level') == 'admin' || $this->session->userdata('UserID') == $i->id_user) :
 
                     $button .= '<a href="' . site_url('edit_stok/' . $i->id_stok) . '" class="btn btn-warning btn-sm text-white">Edit</a>
-                        <button type="button" class="btn btn-danger btn-sm"onclick="hapus_stok(\'' . $i->id_stok . '\')">Hapus</button>';
+                    <button type="button" class="btn btn-danger btn-sm"onclick="hapus_stok(\'' . $i->id_stok . '\')">Hapus</button>';
 
                 endif;
 
@@ -228,6 +261,7 @@ class Stok extends CI_Controller
                 $row[] = $i->nama_barang;
                 $row[] = $i->nama_cabang;
                 $row[] = $i->id_pembelian;
+                $row[] = $i->id_penjualan;
                 $row[] = $button;
 
                 $data[] = $row;

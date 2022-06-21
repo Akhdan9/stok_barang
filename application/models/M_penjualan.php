@@ -31,6 +31,15 @@ class M_penjualan extends CI_Model
 
         return $this->db->get();
     }
+    
+
+    function getBarang($id)
+    {
+        $query = $this->db->get_where('tbl_stok', ['id_cabang' => $id])->result();
+        return $query;
+    }
+
+    
 
     function getDataPenjualan($id)
     {
@@ -64,6 +73,16 @@ class M_penjualan extends CI_Model
             $this->db->insert_batch($table, $data);
         }
     }
+
+    function multiUpdate($table = null, $data = array(), $where = '')
+    {
+        $jumlahUp = count($data);
+
+        if ($jumlahUp > 0) {
+            $this->db->update_batch($table, $data, $where);
+        }
+    }
+    
 
     function update($table = null, $data = null, $where = null)
     {
