@@ -752,7 +752,7 @@
                         $('.barang-select').val(null).trigger('change');
                         $('#barangx').removeAttr('disabled');
                         $('#jumlahx').val('');
-                        $('#sisa').val('');
+                        // $('#sisa').val('');
                         $('#rowid-field').html('');
                         $('#btn-act').html('<button type="button" class="btn btn-success btn-sm tambah-penjualan" onclick="tambah_pembelian()">Tambah Barang</button>');
                         $('#barang-penjualan').addClass('pilih-barang');

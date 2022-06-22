@@ -78,7 +78,8 @@ class Penjualan extends CI_Controller
                     'id_penjualan' => $id,
                     'tgl_penjualan' => $tgl,
                     'nama_pembeli' => $pembeli,
-                    'id_user' => $user
+                    'id_user' => $user,
+                    // 'id_cabang' => $this->security->xss_clean($this->input->post('id_cabang', TRUE))
                 ];
                 //baca cart dan memasukkannya dalam array untuk disimpan
                 $cart = array();
@@ -96,18 +97,20 @@ class Penjualan extends CI_Controller
                         'id_penjualan' => $id,
                         'id_barang' => $c['id'],
                         'qty' => $c['qty'],
-                        'harga' => $c['price']
+                        'harga' => $c['price'],
+                        'id_cabang' => $c['id_cabang']
                     ];
 
                     for($x = 0; $x < $c['qty']; $x++ ){
 
-                        $stock_temp = $this->m_penjualan->getData('tbl_stok', 'id_barang = '. $c['id'])->row();
-
+                        $stock_temp = $this->m_penjualan->getData('tbl_stok', 'id_barang = '. $c['id'] . ' AND id_cabang = ' . $c['id_cabang'] . ' AND id_penjualan = ' . 0)->result_array();
+                        // var_dump($stock_temp);
+                        // die();
                         $itemP = [
                             'id_penjualan' => $id,
-                            'id_stok' => $stock_temp -> id_stok
+                            'id_stok' => $stock_temp[$x]['id_stok']
                         ];
-    
+                        
                         array_push($arrayP, $itemP);
     
                     }
@@ -129,7 +132,7 @@ class Penjualan extends CI_Controller
                     //push ke array cart
                     array_push($cart, $item);
                 }
-               
+                
                 //simpan data penjualan
                 $simpan = $this->m_penjualan->save('tbl_penjualan', $data_penjualan);
 
@@ -138,8 +141,9 @@ class Penjualan extends CI_Controller
                     $simpanPenjualan = $this->m_penjualan->multiSave('tbl_detail_penjualan', $cart);
                     //simpan stock 
                     $updateStok = $this->m_penjualan->multiUpdate('tbl_stok', $arrayP, 'id_stok');
-                    // var_dump($updateStok);
-                    // die();
+                    // foreach($arrayP as $a){
+                    //     $this->m_penjualan->getSqlUpdate('tbl_stok', $a, 'id_stok');
+                    // }
                     if($simpanPenjualan && $updateStok){
                     //kosongkan cart
                     $this->cart->destroy();
@@ -181,7 +185,7 @@ class Penjualan extends CI_Controller
 
         $this->is_login();
         //ambil data
-        $getData = $this->m_penjualan->getDataPenjualan($this->security->xss_clean($id_penjualan));
+        $getData = $this->m_penjualan->getDetailPenjualan($this->security->xss_clean($id_penjualan));
 
         if ($getData->num_rows() < 1) {
             redirect('dashboard');
@@ -231,7 +235,7 @@ class Penjualan extends CI_Controller
         }
     }
 
-    public function edit_penjualan($id = null)
+    public function edit_penjualan($id)
     {
         if ($id == null) {
             redirect('data_penjualan');
@@ -299,7 +303,8 @@ class Penjualan extends CI_Controller
                         'id_penjualan' => $idP,
                         'id_barang' => $c['id'],
                         'qty' => $c['qty'],
-                        'harga' => $c['price']
+                        'harga' => $c['price'],
+                        'id_cabang' => $c['id_cabang']
                     ];
                     //hapus session
                     $this->session->unset_userdata($c['id']);
@@ -326,7 +331,7 @@ class Penjualan extends CI_Controller
         }
 
         //ambil data penjualan
-        $getData = $this->m_penjualan->getDataPenjualan($this->security->xss_clean($id));
+        $getData = $this->m_penjualan->getDetailPenjualan($this->security->xss_clean($id));
 
         //hitung data
         if ($getData->num_rows() < 1) {
@@ -349,6 +354,7 @@ class Penjualan extends CI_Controller
                     'id'      => $c->kode_barang,
                     'qty'     => $c->qty,
                     'price'   => $c->harga,
+                    'id_cabang' => $c->id_cabang,
                     'name'    => $c->nama_barang
                 );
 
@@ -361,7 +367,8 @@ class Penjualan extends CI_Controller
         $data = [
             'title' => 'Edit Data Penjualan',
             'fdata' => $fData,
-            'data' => $this->m_penjualan->getData('tbl_barang'),
+            'data' => $this->m_penjualan->getAllData('tbl_barang'),
+            'lokasi' => $this->m_penjualan->getAllData('tbl_lokasi'),
             'table' => $this->read_cart()
         ];
 

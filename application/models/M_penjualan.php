@@ -48,8 +48,26 @@ class M_penjualan extends CI_Model
         $table = 'tbl_penjualan p
                     LEFT JOIN tbl_detail_penjualan dp ON(p.id_penjualan = dp.id_penjualan)
                     LEFT JOIN tbl_barang b ON(dp.id_barang = b.kode_barang)
+                    LEFT JOIN tbl_user u ON(p.id_user = u.id_user)';
+
+        $where = array('p.id_penjualan' => $id);
+
+        $this->db->select($select);
+        $this->db->from($table);
+        $this->db->where($where);
+
+        return $this->db->get();
+    }
+
+    function getDetailPenjualan($id)
+    {
+        $select = 'p.id_penjualan AS id_penjualan, tgl_penjualan, qty, dp.harga AS harga, kode_barang, nama_barang, fullname, u.id_user AS id_user, nama_pembeli, l.id_cabang AS id_cabang, nama_cabang';
+
+        $table = 'tbl_detail_penjualan dp
+                    LEFT JOIN tbl_penjualan p ON(dp.id_penjualan = p.id_penjualan)
+                    LEFT JOIN tbl_barang b ON(dp.id_barang = b.kode_barang)
                     LEFT JOIN tbl_user u ON(p.id_user = u.id_user)
-                    LEFT JOIN tbl_lokasi l ON(p.id_cabang = l.id_cabang)';
+                    LEFT JOIN tbl_lokasi l ON(dp.id_cabang = l.id_cabang)';
 
         $where = array('p.id_penjualan' => $id);
 
@@ -81,6 +99,12 @@ class M_penjualan extends CI_Model
         if ($jumlahUp > 0) {
             $this->db->update_batch($table, $data, $where);
         }
+       
+    }
+
+    function getSqlUpdate($table = null, $data = null, $where = null)
+    {
+        return $this->db->get_compiled_update($table, $data, $where);
     }
     
 

@@ -33,24 +33,33 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="barang-penjualan" class="col-sm-2 col-form-label">Barang</label>
+        <label for="cabang" class="col-sm-2 col-form-label">Lokasi</label>
         <div class="col-sm-6">
-            <select class="barang-select custom-select custom-select-sm pilih-barang" id="barang-penjualan">
-                <option value="" disabled selected>Pilih Barang</option>
-                <?php foreach ($data->result() as $d) : ?>
-                    <option value="<?= $d->kode_barang; ?>">
-                        <?= $d->nama_barang . ' ( ' . $d->brand . ' )'; ?>
+            <select class="custom-select custom-select-sm cabang-select" name="nama_cabang" id="nama_cabang">
+                <option value="" disabled selected>Pilih Lokasi</option>
+                <?php foreach ($lokasi->result() as $l) : ?>
+                    <option value="<?= $l->id_cabang; ?>">
+                        <?= $l->nama_cabang; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
         </div>
     </div>
     <div class="form-group row">
+        <label for="barangx" class="col-sm-2 col-form-label">Barang</label>
+        <div class="col-sm-6">
+            <select class="custom-select custom-select-sm barang-select" name="barangx" id="barangx">
+                <option value="" disabled selected>Pilih Barang</option>
+                
+            </select>
+        </div>
+    </div>
+    <!-- <div class="form-group row">
         <label for="harga" class="col-sm-2 col-form-label">Stok</label>
         <div class="col-sm-2">
             <input type="text" class="form-control form-control-sm qty" id="sisa" placeholder="Stok Barang" readonly>
         </div>
-    </div>
+    </div> -->
     <div class="form-group row">
         <label for="jumlahx" class="col-sm-2 col-form-label">Jumlah Beli</label>
         <div class="col-sm-2">
@@ -74,6 +83,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Nama Barang</th>
                 <th scope="col">Qty</th>
+                <th scope="col">Lokasi</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Harga Total</th>
                 <th scope="col">Opsi</th>
