@@ -330,6 +330,8 @@ class Data_barang extends CI_Controller
                 $row[] = $i->kode_barang;
                 $row[] = $i->nama_barang;
                 $row[] = $i->brand;
+                $row[] = $i->item_no;
+                $row[] = $i->size;
                
 
                 $data[] = $row;

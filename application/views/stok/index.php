@@ -3,7 +3,7 @@
         <h4 class="mb-0"><i class="fa fa-cubes"></i> Data Stok</h4>
     </div>
     <div class="col-sm-12 col-md-2">
-        <a href="<?= site_url('tambah_stok'); ?>" class="btn btn-success btn-sm btn-block">Edit Stok</a>
+        <!-- <a href="<?= site_url('tambah_stok'); ?>" class="btn btn-success btn-sm btn-block">Edit Stok</a> -->
     </div>
 </div>
 <hr class="mt-0" />

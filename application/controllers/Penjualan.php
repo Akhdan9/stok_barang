@@ -536,13 +536,13 @@ class Penjualan extends CI_Controller
 
             if ($get_item) {
                 //cek item dalam database untuk mengambil stok terakhir dan ditambah stok barang yang akan dijual
-                $getBarang = $this->m_penjualan->getData('tbl_barang', ['kode_barang' => $get_item['id']]);
+                $getBarang = $this->m_penjualan->getData('tbl_stok', ['id_cabang' => $get_item['id']]);
 
                 if ($getBarang->num_rows() != 1) {
                     $arr = [
+                        'lokasi' => '',
                         'barang' => '',
                         'qty' => '',
-                        'stok' => '',
                         'rowid' => '',
                         'table' => $this->read_cart(),
                         'status' => 'false'
@@ -554,30 +554,22 @@ class Penjualan extends CI_Controller
 
                         if ($this->session->userdata($get_item['id'])) {
                             $stok = $this->session->userdata($get_item['id']);
-                        } else {
-                            //masukkan stok ke session
-                            $stoknya = [$get_item['id'] => ($b->stok + $get_item['qty'])];
-                            $this->session->set_userdata($stoknya);
-
-                            $stok = ($b->stok + $get_item['qty']);
-                        }
-                    } else {
-                        $stok = $b->stok;
-                    }
+                        } 
+                    } 
                     $arr = [
+                        'lokasi' => $get_item['id_cabang'],
                         'barang' => $get_item['id'],
                         'qty' => $get_item['qty'],
-                        'stok' => $stok,
-                        'rowid' => '<input type="hidden" id="rowid" value="' . $get_item['rowid'] . '" /><input type="hidden" id="lastQty" value="' . $stok . '">',
+                        // 'rowid' => '<input type="hidden" id="rowid" value="' . $get_item['rowid'] . '" /><input type="hidden" id="lastQty" value="' . $stok . '">',
                         'table' => $this->read_cart(),
                         'status' => 'true'
                     ];
                 }
             } else {
                 $arr = [
+                    'lokasi' => '',
                     'barang' => '',
                     'qty' => '',
-                    'stok' => '',
                     'rowid' => '',
                     'table' => $this->read_cart(),
                     'status' => 'false'

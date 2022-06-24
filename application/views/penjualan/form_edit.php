@@ -67,10 +67,16 @@
         </div>
     </div>
     <div class="form-group row">
+        <label for="harga" class="col-sm-2 col-form-label">Harga jual</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control form-control-sm uang" id="harga" name="harga" placeholder="Harga Jual">
+        </div>
+    </div>
+    <div class="form-group row">
         <div class="col-sm-3 offset-sm-2">
             <div id="rowid-field"></div>
             <div id="btn-act">
-                <button type="button" class="btn btn-success btn-sm tambah-penjualan" onclick="tambah_pembelian()">
+                <button type="button" class="btn btn-success btn-sm tambah-penjualan" onclick="tambah_cart_jual()">
                     Tambah Barang
                 </button>
             </div>

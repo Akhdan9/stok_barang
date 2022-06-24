@@ -61,12 +61,12 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <!-- <div class="form-group row">
         <label for="jumlahx" class="col-sm-2 col-form-label">Jumlah Stok</label>
         <div class="col-sm-2">
             <input type="text" class="form-control form-control-sm qty" id="jumlah_stok" name="jumlah_stok" placeholder="Jumlah Stok" readonly>
         </div>
-    </div>
+    </div> -->
 
     <div class="form-group row">
         <label for="harga" class="col-sm-2 col-form-label">Harga jual</label>
