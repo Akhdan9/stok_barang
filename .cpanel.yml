@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/u5697530/public_html/stock
+    - /bin/cp * $DEPLOYPATH
+
