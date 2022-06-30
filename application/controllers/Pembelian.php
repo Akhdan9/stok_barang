@@ -89,8 +89,11 @@ class Pembelian extends CI_Controller
                 //cartStock
                 $cartStok = array();
                 
+                
                 $counttime = 0;
+                $rowContent = 0;
                 foreach ($this->cartpemb->contents() as $c) {
+                    $rowContent++;
                     $id_pembelian = $id;
                     $item = [
                         'id_pembelian' => $id_pembelian,
@@ -102,9 +105,9 @@ class Pembelian extends CI_Controller
                     //foreach sebanyak qty
                     for($x = 1; $x <= $c['qty']; $x++){
                         $counttime++;
-                        $id_stok = 'ID' . time() + $counttime;
+                        $id_stok = 'ID' . time() . $rowContent . $counttime;
                         $itemStok = [
-                            'id_stok' => $id . $x,
+                            'id_stok' => $id_stok,
                             'id_barang' => $c['id'],
                             'id_cabang' => 1,
                             'id_pembelian' => $id_pembelian,
