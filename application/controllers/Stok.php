@@ -24,9 +24,9 @@ class Stok extends CI_Controller
 
         $this->is_admin();
 
-    
-        $data['title'] = 'Data Stok Barang';
 
+        $data['title'] = 'Data Stok Barang';
+        $data['cabang'] = $this->m_stok->getLocation();
         $this->template->kasir('stok/index', $data);
     }
 
@@ -121,7 +121,6 @@ class Stok extends CI_Controller
         ];
 
         $this->template->kasir('stok/form_editall', $data);
-        
     }
 
     private function is_login()
@@ -136,7 +135,7 @@ class Stok extends CI_Controller
         $this->is_admin();
 
         //ambil data
-        $getData = $this->m_stok->getData('tbl_stok',['id_stok' => $id]);
+        $getData = $this->m_stok->getData('tbl_stok', ['id_stok' => $id]);
         //cek jumlah data
         if ($getData->num_rows() != 1) {
             redirect('stok');
@@ -181,7 +180,7 @@ class Stok extends CI_Controller
                 if ($up) {
                     $this->session->set_flashdata('success', 'Data Stok berhasil diperbarui..');
                     redirect('stok');
-                } 
+                }
             }
         }
 
@@ -224,7 +223,7 @@ class Stok extends CI_Controller
 
                 if ($hapus) {
                     echo json_encode(['message' => 'success']);
-                } 
+                }
             } else {
                 echo json_encode(['message' => 'failed']);
             }
@@ -235,12 +234,18 @@ class Stok extends CI_Controller
 
     public function ajax_stok()
     {
+
+
         $this->is_login();
         //cek apakah request berupa ajax atau bukan, jika bukan maka redirect ke home
         if ($this->input->is_ajax_request()) {
+
+            if (!empty($_POST['cabang'])) {
+                $this->db->where('nama_cabang', $_POST['cabang']);
+            }
             //ambil list data
             $list = $this->m_stok->get_datatables();
-            
+
             //siapkan variabel array
             $data = array();
             $no = $_POST['start'];
@@ -279,7 +284,6 @@ class Stok extends CI_Controller
             redirect('dashboard');
         }
     }
-
 }
 
 /* End of file Inv.php */

@@ -22,8 +22,32 @@ if ($this->session->flashdata('error')) {
   </div>';
 }
 ?>
+<div class="row">
+    <div class="col-md-10 col-sm-12">
+        <?= form_open('', ['class' => "form-inline"]); ?>
+        <div class="form-group mx-sm-2 mb-2">
+            <label for="cabang" class="sr-only">Lokasi</label>
+            <select id="id_cabang" class="form-control form-control-sm" style="min-width:150px">
+                <option value="">-- Select Location --</option>
+                <?php
+                foreach ($cabang as $c) { ?>
+                    <option value="<?= $c->id_cabang ?>"><?= $c->nama_cabang ?></option>
+                <?php }
+                ?>
+            </select>
+        </div>
+        <?= form_close(); ?>
+    </div>
+    <!-- <div class="col-md-2 col-sm-12">
+        <a href="<?= site_url('stok_tahunan/' . $tahun); ?>" class="btn btn-success btn-block btn-sm" target="_blank">
+            <i class="fa fa-print"></i> Cetak Laporan
+        </a>
+    </div> -->
+</div>
+
+
 <div class="table-responsive">
-    <table class="table table-sm table-hover table-striped" id="tables">
+    <table class="table table-sm table-hover table-striped" id="stok">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
@@ -35,7 +59,7 @@ if ($this->session->flashdata('error')) {
             </tr>
         </thead>
         <tbody>
-            
+
         </tbody>
     </table>
 </div>

@@ -197,11 +197,14 @@ class Laporan extends CI_Controller
         $data = [
             'title' => 'Laporan Tahunan Stok Barang',
             'tahun' => $tahun,
+            'lokasi' => $this->m_laporan->getLocation(),
             'data' => $getData
         ];
 
         $this->template->kasir('laporan/stok_tahunan', $data);
     }
+
+
 
     public function cetak_stok_tahunan($tahun)
     {

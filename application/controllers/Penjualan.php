@@ -10,7 +10,6 @@ class Penjualan extends CI_Controller
         $this->load->library(['template', 'form_validation', 'cart', 'cartpenj']);
         //load model
         $this->load->model('m_penjualan');
-        $this->load->model('m_stok');
 
         header('Last-Modified:' . gmdate('D, d M Y H:i:s') . 'GMT');
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
@@ -86,7 +85,7 @@ class Penjualan extends CI_Controller
 
                 //cart stock
                 $cartPenj = array();
-                
+
                 $arrayP = array();
 
                 //detail penjualan
@@ -101,20 +100,19 @@ class Penjualan extends CI_Controller
                         'id_cabang' => $c['id_cabang']
                     ];
 
-                    for($x = 0; $x < $c['qty']; $x++ ){
+                    for ($x = 0; $x < $c['qty']; $x++) {
 
-                        $stock_temp = $this->m_penjualan->getData('tbl_stok', 'id_barang = '. $c['id'] . ' AND id_cabang = ' . $c['id_cabang'] . ' AND id_penjualan = ' . 0)->result_array();
+                        $stock_temp = $this->m_penjualan->getData('tbl_stok', 'id_barang = ' . $c['id'] . ' AND id_cabang = ' . $c['id_cabang'] . ' AND id_penjualan = ' . 0)->result_array();
                         // var_dump($stock_temp);
                         // die();
                         $itemP = [
                             'id_penjualan' => $id,
                             'id_stok' => $stock_temp[$x]['id_stok']
                         ];
-                        
+
                         array_push($arrayP, $itemP);
-    
                     }
-                    
+
                     // //foreach sebanyak qty
                     // for($x = 1; $x <= $c['qty']; $x++){
                     //     $countime++;
@@ -132,7 +130,7 @@ class Penjualan extends CI_Controller
                     //push ke array cart
                     array_push($cart, $item);
                 }
-                
+
                 //simpan data penjualan
                 $simpan = $this->m_penjualan->save('tbl_penjualan', $data_penjualan);
 
@@ -144,11 +142,11 @@ class Penjualan extends CI_Controller
                     // foreach($arrayP as $a){
                     //     $this->m_penjualan->getSqlUpdate('tbl_stok', $a, 'id_stok');
                     // }
-                    if($simpanPenjualan && $updateStok){
-                    //kosongkan cart
-                    $this->cart->destroy();
-                    //buat notifikasi penyimpanan berhasil
-                    $this->session->set_flashdata('success', 'Data penjualan berhasil ditambahkan...');
+                    if ($simpanPenjualan && $updateStok) {
+                        //kosongkan cart
+                        $this->cart->destroy();
+                        //buat notifikasi penyimpanan berhasil
+                        $this->session->set_flashdata('success', 'Data penjualan berhasil ditambahkan...');
                     }
                     redirect('data_penjualan');
                 }
@@ -165,17 +163,18 @@ class Penjualan extends CI_Controller
         $this->template->kasir('penjualan/form_input', $data);
     }
 
-    function get_sub_barang(){
-        $id = $this->input->post('id',TRUE);
+    function get_sub_barang()
+    {
+        $id = $this->input->post('id', TRUE);
         $data = $this->m_penjualan->getBarang($id);
         $output = '<option value = "">--Pilih Barang-- </option>';
-        foreach($data as $row){
-            $output .= '<option value ="' . $row->id_barang .'"> '.$row->id_barang.'</option>';
+        foreach ($data as $row) {
+            $output .= '<option value ="' . $row->id_barang . '"> ' . $row->id_barang . '</option>';
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($output));
     }
 
-    
+
 
     public function detail_penjualan($id_penjualan = null)
     {
@@ -418,7 +417,7 @@ class Penjualan extends CI_Controller
                 if ($get_barang->num_rows() == 1) {
                     //fetch data barang dan masukkan kedalam cart
                     $b = $get_barang->row();
-                    
+
                     $keranjang = array(
                         'id'      => $b->kode_barang,
                         'qty'     => $this->security->xss_clean($this->input->post('jumlah', TRUE)),
@@ -454,7 +453,7 @@ class Penjualan extends CI_Controller
                     // } else {
 
                     // }
-                
+
                 } else {
                     $table = $this->read_cart();
 
@@ -554,8 +553,8 @@ class Penjualan extends CI_Controller
 
                         if ($this->session->userdata($get_item['id'])) {
                             $stok = $this->session->userdata($get_item['id']);
-                        } 
-                    } 
+                        }
+                    }
                     $arr = [
                         'lokasi' => $get_item['id_cabang'],
                         'barang' => $get_item['id'],

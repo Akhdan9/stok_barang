@@ -9,7 +9,7 @@ class M_stok extends CI_Model
                                 LEFT JOIN tbl_lokasi l ON(s.id_cabang = l.id_cabang))
                                 LEFT JOIN tbl_pembelian p ON(s.id_pembelian = p.id_pembelian))
                                 LEFT JOIN tbl_penjualan j ON(s.id_penjualan = j.id_penjualan))';
-    
+
     var $column_order    =  array(null, 's.id_stok', 'nama_barang', 'nama_cabang', 'id_pembelian', 'id_penjualan', null); //set column field database untuk datatable order
     var $column_search   =  array('s.id_stok', 'nama_barang', 'nama_cabang'); //set column field database untuk datatable search
 
@@ -29,6 +29,16 @@ class M_stok extends CI_Model
         $this->db->where($where);
 
         return $this->db->get();
+    }
+
+    public function getLocation($id = '')
+    {
+        if ($id != null) {
+            $this->db->where('id', $id);
+        }
+        return $this->db
+            ->get('tbl_lokasi')
+            ->result();
     }
 
     function save($table = null, $data = null)

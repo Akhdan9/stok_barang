@@ -157,7 +157,7 @@
     <script src="<?= base_url('assets/js/js-cookie.js'); ?>"></script>
     <!-- Custom Javascript -->
     <?php
-    $arr_uri = array('stok_barang', 'barang','pegawai', 'supplier', 'data_pembelian', 'data_penjualan','cabang', 'stok');
+    $arr_uri = array('stok_barang', 'barang', 'pegawai', 'supplier', 'data_pembelian', 'data_penjualan', 'cabang', 'stok');
 
     if (in_array(strtolower($this->uri->segment(1)), $arr_uri) && !$this->uri->segment(2)) :
         switch ($this->uri->segment(1)) {
@@ -185,8 +185,6 @@
             case 'stok':
                 $file = 'ajax_stok';
                 break;
-            
-
         }
     ?>
         <script>
@@ -212,11 +210,42 @@
                     }, ],
                 });
             });
+
+            function myTable() {
+                $('#stok').DataTable({
+                    "processing": true, //Feature control the processing indicator.
+                    "serverSide": true, //Feature control DataTables' server-side processing mode.
+                    "order": [], //Initial no order.
+                    "responsive": true,
+                    // Load data for the table's content from an Ajax source
+                    "ajax": {
+                        "url": "<?= site_url($file) ?>",
+                        "type": "POST",
+                        "data": function(data) {
+                            data.csrf_token = Cookies.get('csrf_cookie');
+                            data.cabang = $('#id_cabang').val();
+                        }
+                    },
+
+                    bDestroy: true,
+
+                    //Set column definition initialisation properties.
+                    columnDefs: [{
+                        "targets": [0], //first column / numbering column
+                        "orderable": false, //set not orderable
+                    }, ],
+                });
+            }
+            myTable();
+
+            $('#id_cabang').change(function() {
+                myTable();
+            });
         </script>
 
     <?php endif; ?>
 
-    <!-- <?php if ($this->uri->segment(1) == 'stok' ): ?>
+    <!-- <?php if ($this->uri->segment(1) == 'stok') : ?>
         <script>
             $('#tabel_stok').DataTable();
         </script>
@@ -248,9 +277,9 @@
             $('.supplier').select2();
         });
 
-        $(document).ready(function(){
-            $('#nama_cabang').change(function(){ 
-                var id=$(this).val();
+        $(document).ready(function() {
+            $('#nama_cabang').change(function() {
+                var id = $(this).val();
                 $.ajax({
                     type: "POST",
                     url: "<?= base_url('get_sub_barang') ?>",
@@ -258,14 +287,14 @@
                         id: id
                     },
                     dataType: "JSON",
-                    success: function(response){
+                    success: function(response) {
                         $('#barangx').html(response);
                     }
                 });
-            }); 
-             
+            });
+
         });
-        
+
         function imgPreview() {
             const foto = document.querySelector('#foto');
             const fotoLabel = document.querySelector('#FileNameShow');

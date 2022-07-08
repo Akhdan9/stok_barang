@@ -31,15 +31,15 @@ class M_penjualan extends CI_Model
 
         return $this->db->get();
     }
-    
+
 
     function getBarang($id)
     {
-        $query = $this->db->get_where('tbl_stok', ['id_cabang' => $id])->result();
+        $query = $this->db->group_by('id_barang')->get_where('tbl_stok', ['id_cabang' => $id])->result();
         return $query;
     }
 
-    
+
 
     function getDataPenjualan($id)
     {
@@ -99,14 +99,13 @@ class M_penjualan extends CI_Model
         if ($jumlahUp > 0) {
             $this->db->update_batch($table, $data, $where);
         }
-       
     }
 
     function getSqlUpdate($table = null, $data = null, $where = null)
     {
         return $this->db->get_compiled_update($table, $data, $where);
     }
-    
+
 
     function update($table = null, $data = null, $where = null)
     {

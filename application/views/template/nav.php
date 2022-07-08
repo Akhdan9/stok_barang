@@ -28,7 +28,7 @@
                 <li <?= (in_array(strtolower($this->uri->segment(1)), ['cabang'])) ? 'class="active"' : ''; ?>>
                     <a href="<?= site_url('cabang'); ?>"><i class="fa fa-users"></i> Data Lokasi</a>
                 </li>
-                <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok','edit_stok'])) ? 'class="active"' : ''; ?>>
+                <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok', 'edit_stok'])) ? 'class="active"' : ''; ?>>
                     <a href="<?= site_url('stok'); ?>"><i class="fa fa-users"></i> Data Stok</a>
                 </li>
             <?php
@@ -54,7 +54,11 @@
                 <a href="<?= site_url('data_penjualan'); ?>"><i class="fa fa-reply"></i> Data Penjualan</a>
             </li>
 
-            <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok_harian', 'stok_bulanan', 'stok_tahunan'])) ? 'class="active"' : ''; ?>>
+            <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok_tahunan'])) ? 'class="active"' : ''; ?>>
+                <a href="<?= site_url('stok_tahunan'); ?>"><i class="fa fa-file-text-o"></i>Laporan Stok Barang</a>
+            </li>
+
+            <!-- <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok_harian', 'stok_bulanan', 'stok_tahunan'])) ? 'class="active"' : ''; ?>>
                 <a href="#pageStokBarang" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fa fa-file-text-o"></i> Laporan Stok Barang
                 </a>
@@ -76,7 +80,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
 
             <li <?= (in_array(strtolower($this->uri->segment(1)), ['pembelian_harian', 'pembelian_bulanan', 'pembelian_tahunan'])) ? 'class="active"' : ''; ?>>
                 <a href="#pagePembelian" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -120,7 +124,7 @@
                 Copyright &copy;<script>
                     document.write(new Date().getFullYear());
                 </script> All rights reserved | Repost by <a href='https://ptsbm.id/' title='ptsbm.id' target='_blank'>ptsbm.id</a>
-				
+
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>

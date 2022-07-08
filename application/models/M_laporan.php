@@ -8,6 +8,16 @@ class M_laporan extends CI_Model
         parent::__construct();
     }
 
+    public function getLocation($id = '')
+    {
+        if ($id != null) {
+            $this->db->where('id', $id);
+        }
+        return $this->db
+            ->get('tbl_lokasi')
+            ->result();
+    }
+
     function getDataStokHarian($tanggal)
     {
         $table = 'tbl_barang b
@@ -70,16 +80,16 @@ class M_laporan extends CI_Model
         $table = 'tbl_barang b
                     LEFT JOIN
                     (SELECT qty, id_barang FROM tbl_penjualan pn
-                    LEFT JOIN tbl_detail_penjualan dpn ON(pn.id_penjualan = dpn.id_penjualan AND YEAR(tgl_penjualan) = \'' . $tahun . '\')) AS c ON(b.kode_barang = c.id_barang)
+                    LEFT JOIN tbl_detail_penjualan dpn ON(pn.id_penjualan = dpn.id_penjualan AND YEAR(tgl_penjualan) = \'' . $tahun  .  '\')) AS c ON(b.kode_barang = c.id_barang)
                     LEFT JOIN
                     (SELECT qty, id_barang FROM tbl_pembelian pm
-                    LEFT JOIN tbl_detail_pembelian dpm ON(pm.id_pembelian = dpm.id_pembelian AND YEAR(tgl_pembelian) = \'' . $tahun . '\')) AS d ON(b.kode_barang = d.id_barang)
+                    LEFT JOIN tbl_detail_pembelian dpm ON(pm.id_pembelian = dpm.id_pembelian AND YEAR(tgl_pembelian) = \'' . $tahun  . '\')) AS d ON(b.kode_barang = d.id_barang)
                     LEFT JOIN
                     (SELECT qty, id_barang FROM tbl_penjualan pn
-                    LEFT JOIN tbl_detail_penjualan dpn ON(pn.id_penjualan = dpn.id_penjualan AND YEAR(tgl_penjualan) > \'' . $tahun . '\')) AS e ON(b.kode_barang = e.id_barang)
+                    LEFT JOIN tbl_detail_penjualan dpn ON(pn.id_penjualan = dpn.id_penjualan AND YEAR(tgl_penjualan) > \'' . $tahun  . '\')) AS e ON(b.kode_barang = e.id_barang)
                     LEFT JOIN
                     (SELECT qty, id_barang FROM tbl_pembelian pm
-                    LEFT JOIN tbl_detail_pembelian dpm ON(pm.id_pembelian = dpm.id_pembelian AND YEAR(tgl_pembelian) > \'' . $tahun . '\')) AS f ON(b.kode_barang = f.id_barang) ';
+                    LEFT JOIN tbl_detail_pembelian dpm ON(pm.id_pembelian = dpm.id_pembelian AND YEAR(tgl_pembelian) > \'' . $tahun  . '\')) AS f ON(b.kode_barang = f.id_barang) ';
 
         $select = 'kode_barang, nama_barang, brand, SUM(c.qty) AS qty_penjualan, SUM(d.qty) AS qty_pembelian, SUM(e.qty) AS qty_penjualan_new, SUM(f.qty) AS qty_pembelian_new';
 
@@ -91,6 +101,8 @@ class M_laporan extends CI_Model
 
         return $this->db->get();
     }
+
+
 
     function getDataPembelianHarian($tanggal)
     {
@@ -168,5 +180,71 @@ class M_laporan extends CI_Model
         $this->db->order_by('tgl_penjualan', 'ASC');
 
         return $this->db->get();
+    }
+
+    private function _get_datatables_query()
+    {
+
+        $this->db->from($this->table);
+
+        $i = 0;
+
+        foreach ($this->column_search as $item) // loop column
+        {
+            if ($_POST['search']['value']) // Jika datatable mengirim POST untuk search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket.
+
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search) - 1 == $i) { //last loop
+                    $this->db->group_end(); //close bracket
+                }
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // Proses order
+        {
+
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order)) {
+
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables()
+    {
+        $this->_get_datatables_query();
+
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+            $query = $this->db->get();
+
+            return $query->result();
+        }
+    }
+
+    function count_filtered()
+    {
+        $this->_get_datatables_query();
+        $query = $this->db->get();
+
+        return $query->num_rows();
+    }
+
+    function count_all()
+    {
+        $this->db->from($this->table);
+
+        return $this->db->count_all_results();
     }
 }
