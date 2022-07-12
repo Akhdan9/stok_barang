@@ -10,6 +10,7 @@ class Laporan extends CI_Controller
         $this->load->library(['template', 'form_validation']);
         //load model
         $this->load->model('m_laporan');
+        // $this->load->model('m_cabang');
 
         header('Last-Modified:' . gmdate('D, d M Y H:i:s') . 'GMT');
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
@@ -20,6 +21,53 @@ class Laporan extends CI_Controller
     public function index()
     {
         redirect('dashboard');
+    }
+
+    public function data_stokbarang()
+    {
+        //cek login
+        $this->is_login();
+
+        // if ($this->input->post('cari', TRUE) == 'Search') {
+        //     //validasi input data tanggal
+        //     $this->form_validation->set_rules(
+        //         'tanggal',
+        //         'Tanggal',
+        //         'required|callback_checkDateFormat',
+        //         array(
+        //             'required' => '{field} wajib diisi',
+        //             'checkDateFormat' => '{field} tidak valid'
+        //         )
+        //     );
+
+        //     if ($this->form_validation->run() == TRUE) {
+        //         $tanggal = $this->security->xss_clean($this->input->post('tanggal', TRUE));
+        //     } else {
+        //         $this->session->set_flashdata('alert', validation_errors('<p class="my-0">', '</p>'));
+
+        //         redirect('stokbarang');
+        //     }
+        // } else {
+        //     $tanggal = date('d/m/Y');
+        // }
+        $loc = '';
+        if ($this->security->xss_clean($this->input->post('id_cabang', TRUE)) != '') {
+            $loc = $this->security->xss_clean($this->input->post('id_cabang', TRUE));
+        }
+        $getDataStok = $this->m_laporan->getStockData($loc);
+
+        // $getData = $this->m_laporan->getDataStokHarian(date('Y-m-d', strtotime(str_replace('/', '-', $tanggal))));
+        $getLocation = $this->m_laporan->getAllData('tbl_lokasi');
+
+        $data = [
+            'title' => 'Laporan Harian Stok Barang',
+            // 'tanggal' => $tanggal,
+            'data' => $getDataStok,
+            'lokasi' => $getLocation->result(),
+            'selected_loc' => $loc
+        ];
+
+        $this->template->kasir('laporan/stok_barang', $data);
     }
 
     public function data_stok_harian()
@@ -197,14 +245,11 @@ class Laporan extends CI_Controller
         $data = [
             'title' => 'Laporan Tahunan Stok Barang',
             'tahun' => $tahun,
-            'lokasi' => $this->m_laporan->getLocation(),
             'data' => $getData
         ];
 
         $this->template->kasir('laporan/stok_tahunan', $data);
     }
-
-
 
     public function cetak_stok_tahunan($tahun)
     {

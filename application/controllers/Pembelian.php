@@ -26,13 +26,13 @@ class Pembelian extends CI_Controller
         //kosongkan cart
         $this->cart->destroy();
         $this->cartpemb->destroy();
-    
+
         $data = [
             'title' => 'Data Pembelian Barang',
-            
+
         ];
 
-        
+
         $this->template->kasir('pembelian/index', $data);
     }
 
@@ -88,8 +88,8 @@ class Pembelian extends CI_Controller
 
                 //cartStock
                 $cartStok = array();
-                
-                
+
+
                 $counttime = 0;
                 $rowContent = 0;
                 foreach ($this->cartpemb->contents() as $c) {
@@ -101,9 +101,9 @@ class Pembelian extends CI_Controller
                         'qty' => $c['qty'], //ganti id lokasi di $item stock
                         'harga' => $c['price']
                     ];
-                    
+
                     //foreach sebanyak qty
-                    for($x = 1; $x <= $c['qty']; $x++){
+                    for ($x = 1; $x <= $c['qty']; $x++) {
                         $counttime++;
                         $id_stok = 'ID' . time() . $rowContent . $counttime;
                         $itemStok = [
@@ -131,20 +131,20 @@ class Pembelian extends CI_Controller
                     $simpanPembelian = $this->m_pembelian->multiSave('tbl_detail_pembelian', $cart);
                     //simpan stock 
                     $simpanStok = $this->m_stok->multiSave('tbl_stok', $cartStok);
-                    if ($simpanPembelian && $simpanStok){
+                    if ($simpanPembelian && $simpanStok) {
                         //kosongkan cart
-                       $this->cartpemb->destroy();
-                       //buat notifikasi penyimpanan berhasil
-                       $this->session->set_flashdata('success', 'Data pembelian berhasil ditambahkan...');
+                        $this->cartpemb->destroy();
+                        //buat notifikasi penyimpanan berhasil
+                        $this->session->set_flashdata('success', 'Data pembelian berhasil ditambahkan...');
                         // if($simpanStok){
                         //     //kosongkan cart
                         //     $this->cart->destroy();
                         //     //buat notifikasi penyimpanan berhasil
                         //     $this->session->set_flashdata('success', 'Data Stok berhasil ditambahkan...');
                         // }
-                    } 
+                    }
                     redirect('data_pembelian');
-                }  
+                }
             }
         }
 
@@ -179,7 +179,7 @@ class Pembelian extends CI_Controller
                 //tangkap rowid
                 $id = $this->security->xss_clean($this->input->post('id', TRUE));
 
-                $hapus = $this->m_pembelian->delete(['tbl_pembelian', 'tbl_detail_pembelian','tbl_stok'], ['id_pembelian' => $id]);
+                $hapus = $this->m_pembelian->delete(['tbl_pembelian', 'tbl_detail_pembelian', 'tbl_stok'], ['id_pembelian' => $id]);
 
                 if ($hapus) {
                     echo json_encode(['message' => 'success']);
@@ -315,7 +315,7 @@ class Pembelian extends CI_Controller
         if ($this->session->userdata('level') != 'admin' && $this->session->userdata('UserID') != $fData->id_user) {
             redirect('data_pembelian');
         }
-        
+
         //masukkan detail pembelian ke cart
         if (!$this->cart->contents()) {
             $dataCart = [];
@@ -394,26 +394,26 @@ class Pembelian extends CI_Controller
                         'qty'     => $this->security->xss_clean($this->input->post('jumlah', TRUE)),
                         'price'   => $this->security->xss_clean(str_replace('.', '', $this->input->post('harga', TRUE))),
                         'name'    => $b->nama_barang
-                        
+
                     );
-                        
-                        $this->cartpemb->insert($keranjang);
 
-                        $table = $this->read_cartpemb();
+                    $this->cartpemb->insert($keranjang);
 
-                        $alert = '<div class="alert alert-success" role="alert">Data berhasil ditambahkan ke daftar</div>';
+                    $table = $this->read_cartpemb();
 
-                        $arr = array('table' => $table, 'alert' => $alert, 'status' => 'success');
+                    $alert = '<div class="alert alert-success" role="alert">Data berhasil ditambahkan ke daftar</div>';
 
-                        echo json_encode($arr);
+                    $arr = array('table' => $table, 'alert' => $alert, 'status' => 'success');
+
+                    echo json_encode($arr);
 
                     // if (){
-                        
+
                     // } else {
                     //     $table = $this->cartpemb->read_cart();
 
                     //     $alert = '<div class="alert alert-success" role="alert">Data gagal ditambahkan ke daftar</div>';
-                        
+
                     //     $arr = array('table' => $table, 'alert' => $alert, 'status' => 'gagal');
 
                     //     echo json_encode($arr);
@@ -696,7 +696,7 @@ class Pembelian extends CI_Controller
             redirect('login');
         }
     }
-    
+
     private function read_cartpemb()
     {
         if ($this->cartpemb->contents()) {

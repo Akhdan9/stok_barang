@@ -131,6 +131,7 @@ $route['get_sub_barang'] = 'penjualan/get_sub_barang';
 
 //route data laporan
 $route['stok_harian'] = 'laporan/data_stok_harian';
+$route['stokbarang'] = 'laporan/data_stokbarang';
 $route['stok_harian/(:any)'] = 'laporan/cetak_stok_harian/$1';
 $route['stok_bulanan'] = 'laporan/data_stok_bulanan';
 $route['stok_bulanan/(:any)'] = 'laporan/cetak_stok_bulanan/$1';

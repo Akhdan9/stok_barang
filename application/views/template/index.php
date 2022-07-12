@@ -210,37 +210,6 @@
                     }, ],
                 });
             });
-
-            function myTable() {
-                $('#stok').DataTable({
-                    "processing": true, //Feature control the processing indicator.
-                    "serverSide": true, //Feature control DataTables' server-side processing mode.
-                    "order": [], //Initial no order.
-                    "responsive": true,
-                    // Load data for the table's content from an Ajax source
-                    "ajax": {
-                        "url": "<?= site_url($file) ?>",
-                        "type": "POST",
-                        "data": function(data) {
-                            data.csrf_token = Cookies.get('csrf_cookie');
-                            data.cabang = $('#id_cabang').val();
-                        }
-                    },
-
-                    bDestroy: true,
-
-                    //Set column definition initialisation properties.
-                    columnDefs: [{
-                        "targets": [0], //first column / numbering column
-                        "orderable": false, //set not orderable
-                    }, ],
-                });
-            }
-            myTable();
-
-            $('#id_cabang').change(function() {
-                myTable();
-            });
         </script>
 
     <?php endif; ?>

@@ -31,15 +31,19 @@ class M_stok extends CI_Model
         return $this->db->get();
     }
 
-    public function getLocation($id = '')
+    public function getLocation($where = null)
     {
-        if ($id != null) {
-            $this->db->where('id', $id);
+        $this->db->select('tbl_stok.id_cabang, kode_barang, nama_barang, brand, nama_cabang, COUNT(*) as total');
+        $this->db->from('tbl_stok');
+        $this->db->join('tbl_barang', 'tbl_stok.id_barang = tbl_barang.kode_barang');
+        $this->db->join('tbl_lokasi', 'tbl_stok.id_cabang = tbl_lokasi.id_cabang');
+        $this->db->group_by(array("tbl_stok.id_cabang", "nama_barang"));
+        if ($where != '') {
+            $this->db->where('tbl_stok.id_cabang = ' . $where);
         }
-        return $this->db
-            ->get('tbl_lokasi')
-            ->result();
+        return $this->db->get();
     }
+
 
     function save($table = null, $data = null)
     {

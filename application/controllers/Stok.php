@@ -24,9 +24,20 @@ class Stok extends CI_Controller
 
         $this->is_admin();
 
+        $loc = '';
+        if ($this->security->xss_clean($this->input->post('id_cabang', TRUE)) != '') {
+            $loc = $this->security->xss_clean($this->input->post('id_cabang', TRUE));
+        }
+        $getDataStok = $this->m_stok->getLocation($loc);
+
+        // $getData = $this->m_laporan->getDataStokHarian(date('Y-m-d', strtotime(str_replace('/', '-', $tanggal))));
+        $getLocation = $this->m_stok->getAllData('tbl_lokasi');
+
 
         $data['title'] = 'Data Stok Barang';
-        $data['cabang'] = $this->m_stok->getLocation();
+        $data['data'] = $getDataStok;
+        $data['lokasi'] = $getLocation->result();
+        $data['selected_loc'] = $loc;
         $this->template->kasir('stok/index', $data);
     }
 
@@ -240,9 +251,7 @@ class Stok extends CI_Controller
         //cek apakah request berupa ajax atau bukan, jika bukan maka redirect ke home
         if ($this->input->is_ajax_request()) {
 
-            if (!empty($_POST['cabang'])) {
-                $this->db->where('nama_cabang', $_POST['cabang']);
-            }
+
             //ambil list data
             $list = $this->m_stok->get_datatables();
 
