@@ -109,7 +109,7 @@ class Pembelian extends CI_Controller
                         $itemStok = [
                             'id_stok' => $id_stok,
                             'id_barang' => $c['id'],
-                            'id_cabang' => 1,
+                            'id_cabang' => $c['id_cabang'],
                             'id_pembelian' => $id_pembelian,
                         ];
                         //array push item stock to cart stock
@@ -152,6 +152,7 @@ class Pembelian extends CI_Controller
             'title' => 'Tambah Data Pembelian',
             'data' => $this->m_pembelian->getAllData('tbl_barang'),
             'supplier' => $this->m_pembelian->getAllData('tbl_supplier'),
+            'lokasi' => $this->m_pembelian->getAllData('tbl_lokasi'),
             'table' => $this->read_cart()
         ];
 
@@ -392,6 +393,7 @@ class Pembelian extends CI_Controller
                     $keranjang = array(
                         'id'      => $b->kode_barang,
                         'qty'     => $this->security->xss_clean($this->input->post('jumlah', TRUE)),
+                        'id_cabang'     => $this->security->xss_clean($this->input->post('id_cabang', TRUE)),
                         'price'   => $this->security->xss_clean(str_replace('.', '', $this->input->post('harga', TRUE))),
                         'name'    => $b->nama_barang
 
@@ -456,6 +458,7 @@ class Pembelian extends CI_Controller
             if ($get_item) {
                 $arr = [
                     'barang' => $get_item['id'],
+                    'id_cabang' => $get_item['id_cabang'],
                     'qty' => $get_item['qty'],
                     'harga' => number_format($get_item['price'], 0, ',', '.'),
                     'rowid' => '<input type="hidden" id="rowid" value="' . $get_item['rowid'] . '" />',
@@ -665,6 +668,7 @@ class Pembelian extends CI_Controller
                 $table .= '<tr><td>' . $i++ . '</td>';
                 $table .= '<td>' . $c['name'] . '</td>';
                 $table .= '<td class="text-center">' . $c['qty'] . '</td>';
+                $table .= '<td class="text-center">' . $c['id_cabang'] . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['price'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['subtotal'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-center">
@@ -707,6 +711,7 @@ class Pembelian extends CI_Controller
                 $table .= '<tr><td>' . $i++ . '</td>';
                 $table .= '<td>' . $c['name'] . '</td>';
                 $table .= '<td class="text-center">' . $c['qty'] . '</td>';
+                $table .= '<td class="text-center">' . $c['nama_cabang'] . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['price'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['subtotal'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-center">

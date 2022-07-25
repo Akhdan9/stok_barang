@@ -39,6 +39,19 @@
         </div>
     </div>
     <div class="form-group row">
+        <label for="cabang" class="col-sm-2 col-form-label">Lokasi</label>
+        <div class="col-sm-6">
+            <select class="custom-select custom-select-sm cabang-select" name="id_cabang" id="id_cabang">
+                <option value="" disabled selected>Pilih Lokasi</option>
+                <?php foreach ($lokasi->result() as $l) : ?>
+                    <option value="<?= $l->id_cabang; ?>">
+                        <?= $l->nama_cabang; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
         <label for="barangx" class="col-sm-2 col-form-label">Barang</label>
         <div class="col-sm-6">
             <select class="custom-select custom-select-sm barang-select" id="barangx">
@@ -78,6 +91,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Nama Barang</th>
                     <th scope="col" class="text-center">Jumlah</th>
+                    <th scope="col">Nama Lokasi</th>
                     <th scope="col" class="text-right">Harga</th>
                     <th scope="col" class="text-right">Total</th>
                     <th scope="col" class="text-center">Opsi</th>

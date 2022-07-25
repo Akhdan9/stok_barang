@@ -288,6 +288,7 @@
             var barangx = $('#barangx').val();
             var jumlah = $('#jumlahx').val();
             var harga = $('#harga').val();
+            var id_cabang = $('#id_cabang').val();
             var csrf_token = Cookies.get('csrf_cookie');
 
             $.ajax({
@@ -297,6 +298,7 @@
                     barangx: barangx,
                     jumlah: jumlah,
                     harga: harga,
+                    id_cabang: id_cabang,
                     csrf_token: csrf_token
                 },
                 success: function(obj) {
@@ -310,6 +312,7 @@
                         $('.barang-select').val(null).trigger('change');
                         $('#jumlahx').val('');
                         $('#harga').val('');
+                        $('#id_cabang').val('');
                     }
                 }
             });
