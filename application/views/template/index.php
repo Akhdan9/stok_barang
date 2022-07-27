@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/select2.min.css'); ?>">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/css/style.css'); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
     <style>
         body {
             font-family: Roboto;
