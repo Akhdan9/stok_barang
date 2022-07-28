@@ -711,7 +711,7 @@ class Pembelian extends CI_Controller
                 $table .= '<tr><td>' . $i++ . '</td>';
                 $table .= '<td>' . $c['name'] . '</td>';
                 $table .= '<td class="text-center">' . $c['qty'] . '</td>';
-                $table .= '<td class="text-center">' . $c['nama_cabang'] . '</td>';
+                $table .= '<td class="text-center">' . $c['id_cabang'] . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['price'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['subtotal'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-center">

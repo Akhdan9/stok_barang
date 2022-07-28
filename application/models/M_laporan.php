@@ -13,14 +13,15 @@ class M_laporan extends CI_Model
         return $this->db->get($table);
     }
 
-    function getStockData($where = null){
+    function getStockData($where = null)
+    {
         $this->db->select('tbl_stok.id_cabang, kode_barang, nama_barang, brand, nama_cabang, COUNT(*) as total');
         $this->db->from('tbl_stok');
         $this->db->join('tbl_barang', 'tbl_stok.id_barang = tbl_barang.kode_barang');
         $this->db->join('tbl_lokasi', 'tbl_stok.id_cabang = tbl_lokasi.id_cabang');
         $this->db->group_by(array("tbl_stok.id_cabang", "nama_barang"));
-        if($where != ''){
-            $this->db->where('tbl_stok.id_cabang = '.$where);
+        if ($where != '') {
+            $this->db->where('tbl_stok.id_cabang = ' . $where);
         }
         return $this->db->get();
     }

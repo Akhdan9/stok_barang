@@ -62,7 +62,7 @@ if ($this->session->flashdata('alert')) {
         <?= form_close(); ?>
     </div>
     <div class="col-md-2 col-sm-12">
-        <a href="<?= site_url('penjualan_bulanan/' . $bulan . '-' . $tahun); ?>" class="btn btn-success btn-block btn-sm" target="_blank">
+        <a href="<?= site_url('penjualan_bulanan/' . $bulan . '-' . $tahun); ?>" class="btn btn-success btn-block btn-sm">
             <i class="fa fa-print"></i> Cetak Laporan
         </a>
     </div>

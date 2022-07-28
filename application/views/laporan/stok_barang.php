@@ -19,29 +19,29 @@ if ($this->session->flashdata('alert')) {
         <div class="form-group mx-sm-3 mb-2">
             <select class="custom-select custom-select-sm id_cabang " id="id_cabang" name="id_cabang">
                 <?php
-                    if($selected_loc == ''){
+                if ($selected_loc == '') {
                 ?>
-                        <option value="" selected>Semua Cabang</option>
+                    <option value="" selected>Semua Cabang</option>
                 <?php
-                    }else{
+                } else {
                 ?>
-                        <option value="">Semua Cabang</option>
+                    <option value="">Semua Cabang</option>
+                <?php
+                }
+                ?>
+                <?php
+                foreach ($lokasi as $loc) {
+                    if ($selected_loc == $loc->id_cabang) {
+                ?>
+                        <option selected value="<?= $loc->id_cabang; ?>"><?= $loc->nama_cabang; ?> </option>
+                    <?php
+                    } else {
+                    ?>
+                        <option value="<?= $loc->id_cabang; ?>"><?= $loc->nama_cabang; ?> </option>
                 <?php
                     }
+                }
                 ?>
-                <?php 
-                    foreach($lokasi as $loc){
-                        if($selected_loc == $loc->id_cabang){
-                ?>
-                            <option selected value="<?= $loc->id_cabang; ?>"><?= $loc->nama_cabang; ?> </option>
-                <?php
-                        }else{
-                ?>
-                            <option value="<?= $loc->id_cabang; ?>"><?= $loc->nama_cabang; ?> </option>   
-                <?php
-                        }
-                    }
-                ?>     
             </select>
         </div>
         <button type="submit" class="btn btn-primary mb-2 btn-sm" name="cari" value="Search">
@@ -50,8 +50,8 @@ if ($this->session->flashdata('alert')) {
         <?= form_close(); ?>
     </div>
     <div class="col-md-2 col-sm-12">
-        <a href="<?= site_url('stok_barang/'); ?>" class="btn btn-success btn-block btn-sm" target="_blank">
-            <i class="fa fa-print"></i> Cetak Laporan
+        <a href="<?= site_url('print'); ?>" class="btn btn-success btn-block btn-sm">
+            <i class="fa fa-print"></i> Print
         </a>
     </div>
 </div>

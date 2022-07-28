@@ -10,7 +10,7 @@ class Laporan extends CI_Controller
         $this->load->library(['template', 'form_validation']);
         //load model
         $this->load->model('m_laporan');
-        // $this->load->model('m_cabang');
+
 
         header('Last-Modified:' . gmdate('D, d M Y H:i:s') . 'GMT');
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
@@ -70,6 +70,15 @@ class Laporan extends CI_Controller
         $this->template->kasir('laporan/stok_barang', $data);
     }
 
+    public function print()
+    {
+        $loc = '';
+        $getDataStok = $this->m_laporan->getStockData($loc);
+        $data['title'] = 'Laporan Stok Barang';
+        $data['data'] = $getDataStok;
+        $this->template->cetak('laporan/print_stok', $data);
+    }
+
     public function data_stok_harian()
     {
         //cek login
@@ -106,7 +115,7 @@ class Laporan extends CI_Controller
             'data' => $getData
         ];
 
-        $this->template->kasir('laporan/stok_harian', $data);
+        $this->template->kasir('cetak/stok_harian', $data);
     }
 
     public function cetak_stok_harian($date)

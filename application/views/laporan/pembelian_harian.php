@@ -26,12 +26,12 @@ if ($this->session->flashdata('alert')) {
         <?= form_close(); ?>
     </div>
     <div class="col-md-2 col-sm-12">
-        <a href="<?= site_url('pembelian_harian/' . date('Y-m-d', strtotime(str_replace('/', '-', $tanggal)))); ?>" class="btn btn-success btn-block btn-sm" target="_blank">
+        <a href="<?= site_url('pembelian_harian/' . date('Y-m-d', strtotime(str_replace('/', '-', $tanggal)))); ?>" class="btn btn-success btn-block btn-sm">
             <i class="fa fa-print"></i> Cetak Laporan
         </a>
     </div>
 </div>
-<table class="table table-sm table-bordered mt-3">
+<table class="table table-sm table-bordered mt-3" id="export">
     <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
