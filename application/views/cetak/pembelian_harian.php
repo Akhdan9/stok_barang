@@ -11,7 +11,7 @@ function tanggal_indo($tgl)
 }
 ?>
 
-<img src="<?= base_url('assets/img/logo.jpg'); ?>" class="logo" />
+<img src="<?= base_url('assets/img/logo.png'); ?>" class="logo" />
 <h6 class="display-5 text-center mt-2 mb-0">Laporan Harian Pembelian Barang</h6>
 <p class="text-center display-6 mt-0"><?= tanggal_indo($tanggal); ?></p>
 <hr class="mt-0" />

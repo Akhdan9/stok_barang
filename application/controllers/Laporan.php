@@ -76,7 +76,7 @@ class Laporan extends CI_Controller
         $getDataStok = $this->m_laporan->getStockData($loc);
         $data['title'] = 'Laporan Stok Barang';
         $data['data'] = $getDataStok;
-        $this->template->cetak('laporan/print_stok', $data);
+        $this->template->cetak('cetak/print_stok', $data);
     }
 
     public function data_stok_harian()

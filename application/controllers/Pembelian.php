@@ -356,7 +356,7 @@ class Pembelian extends CI_Controller
             $this->form_validation->set_rules(
                 'barangx',
                 'Barang',
-                'required|min_length[3]|max_length[100]',
+                'required',
                 array(
                     'required' => '{field} wajib dipilih',
                     'min_length' => 'Isi {field} tidak valid',

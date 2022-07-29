@@ -10,7 +10,7 @@ function tanggal_indo($tgl)
     return $exp[0] . ' ' . $bulan[(int) $exp[1]] . ' ' . $exp[2];
 }
 ?>
-<img src="<?= base_url('assets/img/logo.jpg'); ?>" class="logo" />
+<img src="<?= base_url('assets/img/logo.png'); ?>" class="logo" />
 <h6 class="display-5 text-center mt-2 mb-0">Laporan Bulanan Penjualan Barang</h6>
 <p class="text-center display-6 mt-0"><?= 'Bulan ' . ucwords($bulan) . ' Tahun ' . $tahun; ?></p>
 <hr class="mt-0" />
