@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-<img src="<?= base_url('assets/img/logo.jpg'); ?>" class="logo" />
+<img src="<?= base_url('assets/img/ptsbmlogo.png'); ?>" class="logo" />
 <h6 class="display-5 text-center mt-2 mb-0">Laporan Bulanan Stok Barang</h6>
 <p class="text-center display-6 mt-0"><?= 'Bulan ' . ucwords($bulan) . ' Tahun ' . $tahun; ?></p>
 <hr class="mt-0" />

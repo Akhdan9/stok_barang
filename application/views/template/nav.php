@@ -2,7 +2,7 @@
 
 <nav id="sidebar">
     <div class="p-4 pt-5">
-        <a href="<?= site_url(); ?>" class="img logo rounded-circle mb-3" style="background-image: url(<?= base_url('assets/img/logo.png'); ?>);"></a>
+        <a href="<?= site_url(); ?>" class="img logo rounded-circle mb-3" style="background-image: url(<?= base_url('assets/img/ptsbmlogo.png'); ?>);"></a>
         <ul class="list-unstyled components mb-5">
 
             <li <?= (strtolower($this->uri->segment(1)) == 'dashboard') ? 'class="active"' : ''; ?>>
@@ -28,7 +28,7 @@
                 <li <?= (in_array(strtolower($this->uri->segment(1)), ['cabang'])) ? 'class="active"' : ''; ?>>
                     <a href="<?= site_url('cabang'); ?>"><i class="fa fa-users"></i> Data Lokasi</a>
                 </li>
-                <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok','edit_stok'])) ? 'class="active"' : ''; ?>>
+                <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok', 'edit_stok'])) ? 'class="active"' : ''; ?>>
                     <a href="<?= site_url('stok'); ?>"><i class="fa fa-users"></i> Data Stok</a>
                 </li>
             <?php
@@ -55,7 +55,7 @@
             </li>
 
             <li <?= (in_array(strtolower($this->uri->segment(1)), ['stokbarang'])) ? 'class="active"' : ''; ?>>
-                <a href="<?= site_url('stokbarang'); ?>" >
+                <a href="<?= site_url('stokbarang'); ?>">
                     <i class="fa fa-file-text-o"></i> Laporan Stok Barang
                 </a>
             </li>
@@ -126,7 +126,7 @@
                 Copyright &copy;<script>
                     document.write(new Date().getFullYear());
                 </script> All rights reserved | Repost by <a href='https://ptsbm.id/' title='ptsbm.id' target='_blank'>ptsbm.id</a>
-				
+
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>

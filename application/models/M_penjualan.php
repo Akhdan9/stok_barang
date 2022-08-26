@@ -35,7 +35,13 @@ class M_penjualan extends CI_Model
 
     function getBarang($id)
     {
-        $query = $this->db->group_by('id_barang')->get_where('tbl_stok', ['id_cabang' => $id])->result();
+        $this->db->select("*");
+        $this->db->from("tbl_stok");
+        $this->db->join("tbl_barang", "tbl_barang.kode_barang = tbl_stok.id_barang");
+        $this->db->where("id_cabang", $id);
+        $this->db->group_by("id_barang");
+        $query = $this->db->get()->result();
+        // $query = $this->db->group_by('id_barang')->get_where('tbl_stok', ['id_cabang' => $id])->result();
         return $query;
     }
 

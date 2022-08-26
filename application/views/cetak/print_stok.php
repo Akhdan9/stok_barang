@@ -11,7 +11,7 @@ function tanggal_indo($tgl)
 }
 ?>
 
-<img src="<?= base_url('assets/img/logo.png'); ?>" class="logo" />
+<img src="<?= base_url('assets/img/ptsbmlogo.png'); ?>" class="logo" />
 <hr class="mt-0" />
 <h6 class="display-5 text-center mt-2 mb-0">Laporan Stok Barang</h6>
 <hr class="mt-0" />

@@ -169,7 +169,7 @@ class Penjualan extends CI_Controller
         $data = $this->m_penjualan->getBarang($id);
         $output = '<option value = "">--Pilih Barang-- </option>';
         foreach ($data as $row) {
-            $output .= '<option value ="' . $row->id_barang . '"> ' . $row->id_barang . '</option>';
+            $output .= '<option value ="' . $row->id_barang . '"> ' . $row->nama_barang . '</option>';
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($output));
     }

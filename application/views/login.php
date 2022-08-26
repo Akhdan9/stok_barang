@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Aplikasi Stok Barang</title>
-    <link rel="shortcut icon" href="<?= base_url('assets/img/favicon.ico'); ?>">
+    <link rel="shortcut icon" href="<?= base_url('assets/img/ptsbmlogo.png'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css'); ?>">
     <!-- Font-awesome CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
@@ -52,7 +52,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-sm-12 text-center mt-5 mb-3">
-                <img src="<?= base_url('assets/img/logo.png'); ?>" class="login" />
+                <img src="<?= base_url('assets/img/ptsbmlogo.png'); ?>" class="login" />
                 <h3 class="text-white mt-2">Stok PTSBM.ID</h3>
 
                 <?php

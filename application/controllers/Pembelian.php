@@ -504,7 +504,7 @@ class Pembelian extends CI_Controller
             $this->form_validation->set_rules(
                 'harga',
                 'Harga Satuan',
-                "required|min_length[2]|regex_match[/^[0-9.]+$/]|greater_than[0]",
+                "required|min_length[2]",
                 array(
                     'required' => '{field} wajib diisi',
                     'min_length' => 'Isi {field} tidak valid',
@@ -668,7 +668,6 @@ class Pembelian extends CI_Controller
                 $table .= '<tr><td>' . $i++ . '</td>';
                 $table .= '<td>' . $c['name'] . '</td>';
                 $table .= '<td class="text-center">' . $c['qty'] . '</td>';
-                $table .= '<td class="text-center">' . $c['id_cabang'] . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['price'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-right">' . number_format($c['subtotal'], 0, ',', '.') . '</td>';
                 $table .= '<td class="text-center">
