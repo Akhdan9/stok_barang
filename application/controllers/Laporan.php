@@ -10,6 +10,7 @@ class Laporan extends CI_Controller
         $this->load->library(['template', 'form_validation']);
         //load model
         $this->load->model('m_laporan');
+        $this->load->model('m_stok');
 
 
         header('Last-Modified:' . gmdate('D, d M Y H:i:s') . 'GMT');
@@ -60,6 +61,7 @@ class Laporan extends CI_Controller
         $getLocation = $this->m_laporan->getAllData('tbl_lokasi');
 
         $data = [
+
             'title' => 'Laporan Harian Stok Barang',
             // 'tanggal' => $tanggal,
             'data' => $getDataStok,
@@ -70,13 +72,35 @@ class Laporan extends CI_Controller
         $this->template->kasir('laporan/stok_barang', $data);
     }
 
-    public function print()
+    public function print($id = '')
     {
-        $loc = '';
+        $loc = $id;
+        if ($this->security->xss_clean($this->input->post('id_cabang', TRUE)) != '') {
+            $loc = $this->security->xss_clean($this->input->post('id_cabang', TRUE));
+        }
         $getDataStok = $this->m_laporan->getStockData($loc);
-        $data['title'] = 'Laporan Stok Barang';
-        $data['data'] = $getDataStok;
+        $getLocation = $this->m_laporan->getAllData('tbl_lokasi');
+
+        $data = [
+
+            'title' => 'Laporan Harian Stok Barang',
+            // 'tanggal' => $tanggal,
+            'data' => $getDataStok,
+            'lokasi' => $getLocation->result(),
+            'selected_loc' => $loc
+        ];
         $this->template->cetak('cetak/print_stok', $data);
+
+        // {
+        //     if ($id == 0) {
+        //         $data = $this->db->get('tb_mahasiswa')->result();
+        //     } else {
+        //         $data = $this->db->get_where('tb_mahasiswa', ['angkatan_id' => $id])->result();
+        //     }
+        //     $dt['mahasiswa'] = $data;
+        //     $this->load->library('mypdf');
+        //     $this->mypdf->generate('Laporan/cetak', $dt, 'laporan-mahasiswa', 'A4', 'portrait');
+        // }
     }
 
     public function data_stok_harian()
@@ -181,13 +205,14 @@ class Laporan extends CI_Controller
         }
 
         $getData = $this->m_laporan->getDataStokBulanan($this->convert_bulan($bulan), $tahun);
+        $stok =
 
-        $data = [
-            'title' => 'Laporan Bulanan Stok ',
-            'bulan' => $bulan,
-            'tahun' => $tahun,
-            'data' => $getData
-        ];
+            $data = [
+                'title' => 'Laporan Bulanan Stok ',
+                'bulan' => $bulan,
+                'tahun' => $tahun,
+                'data' => $getData
+            ];
 
         $this->template->kasir('laporan/stok_bulanan', $data);
     }

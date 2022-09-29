@@ -15,13 +15,25 @@ class M_laporan extends CI_Model
 
     function getStockData($where = null)
     {
-        $this->db->select('tbl_stok.id_cabang, kode_barang, nama_barang, brand, nama_cabang, COUNT(*) as total');
-        $this->db->from('tbl_stok');
-        $this->db->join('tbl_barang', 'tbl_stok.id_barang = tbl_barang.kode_barang');
-        $this->db->join('tbl_lokasi', 'tbl_stok.id_cabang = tbl_lokasi.id_cabang');
-        $this->db->group_by(array("tbl_stok.id_cabang", "nama_barang"));
+        $table = 'tbl_stok s
+        LEFT JOIN tbl_barang b ON(s.id_barang = b.kode_barang)
+        LEFT JOIN tbl_lokasi l ON(s.id_cabang = l.id_cabang)';
+        $select = 's.id_cabang AS id_cabang, kode_barang, nama_barang, brand, nama_cabang, COUNT(*) as total';
+        $group = ['s.id_cabang', 'nama_barang'];
+
+        $this->db->group_by($group);
+        $this->db->select($select);
+        $this->db->from($table);
+        // $this->db->select('tbl_stok.id_cabang, kode_barang, nama_barang, brand, nama_cabang, COUNT(*) as total');
+        // $this->db->from('tbl_stok');
+        // $this->db->join('tbl_barang', 'tbl_stok.id_barang = tbl_barang.kode_barang');
+        // $this->db->join('tbl_lokasi', 'tbl_stok.id_cabang = tbl_lokasi.id_cabang');
+        // $this->db->join('tbl_detail_pembelian', 'tbl_stok.id_pembelian = tbl_detail_pembelian.id_pembelian');
+        // $this->db->join('tbl_detail_penjualan', 'tbl_stok.id_penjualan = tbl_detail_penjualan.id_penjualan');
+        // $this->db->group_by(array("tbl_stok.id_cabang", "nama_barang"));
+
         if ($where != '') {
-            $this->db->where('tbl_stok.id_cabang = ' . $where);
+            $this->db->where('s.id_cabang = ' . $where);
         }
         return $this->db->get();
     }
@@ -72,7 +84,7 @@ class M_laporan extends CI_Model
                     (SELECT qty, id_barang FROM tbl_pembelian pm
                     LEFT JOIN tbl_detail_pembelian dpm ON(pm.id_pembelian = dpm.id_pembelian AND tgl_pembelian > \'' . $tanggal2 . '\')) AS f ON(b.kode_barang = f.id_barang) ';
 
-        $select = 'kode_barang, nama_barang, brand, SUM(c.qty) AS qty_penjualan, SUM(d.qty) AS qty_pembelian, SUM(e.qty) AS qty_penjualan_new, SUM(f.qty) AS qty_pembelian_new';
+        $select = 'kode_barang, nama_barang, brand, SUM(c.qty) AS qty_penjualan, SUM(d.qty) AS qty_pembelian, SUM(e.qty) AS qty_penjualan_new, SUM(f.qty) AS qty_pembelian_new,  COUNT(*) as total';
 
         $group = ['kode_barang', 'nama_barang', 'brand'];
 

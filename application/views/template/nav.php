@@ -54,35 +54,35 @@
                 <a href="<?= site_url('data_penjualan'); ?>"><i class="fa fa-reply"></i> Data Penjualan</a>
             </li>
 
-            <li <?= (in_array(strtolower($this->uri->segment(1)), ['stokbarang'])) ? 'class="active"' : ''; ?>>
+            <!-- <li <?= (in_array(strtolower($this->uri->segment(1)), ['stokbarang'])) ? 'class="active"' : ''; ?>>
                 <a href="<?= site_url('stokbarang'); ?>">
                     <i class="fa fa-file-text-o"></i> Laporan Stok Barang
                 </a>
-            </li>
+            </li> -->
 
-            <!-- <li <?= (in_array(strtolower($this->uri->segment(1)), ['stok_harian', 'stok_bulanan', 'stok_tahunan'])) ? 'class="active"' : ''; ?>>
+            <li <?= (in_array(strtolower($this->uri->segment(1)), ['stokbarang', 'stok_bulanan'])) ? 'class="active"' : ''; ?>>
                 <a href="#pageStokBarang" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fa fa-file-text-o"></i> Laporan Stok Barang
                 </a>
 
                 <ul class="collapse list-unstyled" id="pageStokBarang">
-                    <li <?= (strtolower($this->uri->segment(1)) == 'stok_harian') ? 'class="active"' : ''; ?>>
-                        <a href="<?= site_url('stok_harian'); ?>">
-                            <i class="fa fa-angle-double-right"></i> Harian
+                    <li <?= (in_array(strtolower($this->uri->segment(1)), ['stokbarang'])) ? 'class="active"' : ''; ?>>
+                        <a href="<?= site_url('stokbarang'); ?>">
+                            <i class="fa fa-file-text-o"></i> Laporan Stok Barang
                         </a>
                     </li>
                     <li <?= (strtolower($this->uri->segment(1)) == 'stok_bulanan') ? 'class="active"' : ''; ?>>
                         <a href="<?= site_url('stok_bulanan'); ?>">
-                            <i class="fa fa-angle-double-right"></i> Bulanan
+                            <i class="fa fa-angle-double-right"></i> Laporan Stok
                         </a>
                     </li>
-                    <li <?= (strtolower($this->uri->segment(1)) == 'stok_tahunan') ? 'class="active"' : ''; ?>>
+                    <!-- <li <?= (strtolower($this->uri->segment(1)) == 'stok_tahunan') ? 'class="active"' : ''; ?>>
                         <a href="<?= site_url('stok_tahunan'); ?>">
                             <i class="fa fa-angle-double-right"></i> Tahunan
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
-            </li> -->
+            </li>
 
             <li <?= (in_array(strtolower($this->uri->segment(1)), ['pembelian_harian', 'pembelian_bulanan', 'pembelian_tahunan'])) ? 'class="active"' : ''; ?>>
                 <a href="#pagePembelian" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">

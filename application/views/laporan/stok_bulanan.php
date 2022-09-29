@@ -51,9 +51,9 @@ if ($this->session->flashdata('alert')) {
         <?= form_close(); ?>
     </div>
     <div class="col-md-2 col-sm-12">
-        <a href="<?= site_url('stok_bulanan/' . $bulan . '-' . $tahun); ?>" class="btn btn-success btn-block btn-sm" target="_blank">
+        <!-- <a href="<?= site_url('stok_bulanan/' . $bulan . '-' . $tahun); ?>" class="btn btn-success btn-block btn-sm" target="_blank">
             <i class="fa fa-print"></i> Cetak Laporan
-        </a>
+        </a> -->
     </div>
 </div>
 <table class="table table-sm table-bordered table-striped mt-3">
@@ -63,7 +63,7 @@ if ($this->session->flashdata('alert')) {
             <th scope="col">Kode Barang</th>
             <th scope="col">Nama Barang</th>
             <th scope="col">Brand</th>
-            <!-- <th scope="col" class="text-center">Stok Barang</th> -->
+            <th scope="col" class="text-center">Stok Barang</th>
             <th scope="col" class="text-center">Qty Penjualan</th>
             <th scope="col" class="text-center">Qty Pembelian</th>
         </tr>
@@ -76,12 +76,13 @@ if ($this->session->flashdata('alert')) {
                 $penjualan = ($dt->qty_penjualan_new != '') ? $dt->qty_penjualan_new : 0;
                 $pembelian = ($dt->qty_pembelian_new != '') ? $dt->qty_pembelian_new : 0;
 
+
                 echo '<tr>';
                 echo '<td>' . $i++ . '</td>';
                 echo '<td>' . $dt->kode_barang . '</td>';
                 echo '<td>' . $dt->nama_barang . '</td>';
                 echo '<td>' . $dt->brand . '</td>';
-                // echo '<td class="text-center">' . (($dt->stok + $penjualan) - $pembelian) . '</td>';
+                echo '<td class="text-center">' . $dt->total . '</td>';
                 echo '<td class="text-center">' . (($dt->qty_penjualan != '') ? $dt->qty_penjualan : 0) . '</td>';
                 echo '<td class="text-center">' . (($dt->qty_pembelian != '') ? $dt->qty_pembelian : 0) . '</td>';
                 echo '</tr>';
